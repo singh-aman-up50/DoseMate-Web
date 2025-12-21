@@ -1,0 +1,123 @@
+Introduction
+
+1.1 Project Title
+DoseMate — Intelligent Medication Reminder and Adherence Management System
+
+This project, titled DoseMate, presents a digital platform designed to help users manage their medications, maintain adherence schedules, and track their health-related intake history. The system consolidates medicine lists, reminder schedules, adherence analytics, and personal health profiles into a single user-friendly application. DoseMate is intended for everyday users, caregivers, and healthcare providers who require structured support for recurring medication usage. The project's title reflects the core promise: making medicine dosing simple, reliable and traceable. The application grows out of a need for accessible, reliable medication reminders with confirmation flows that record when a dose is taken or missed. DoseMate also supports analytics so users can see adherence trends over time and take corrective actions. The title is intentionally concise and memorable so it can be used across the user interface, marketing materials, and documentation. The remainder of this document details the analysis, design, implementation, testing, and future scope of DoseMate.
+
+1.2 Problem Statement
+Many people with chronic conditions or multi-drug regimens struggle to take medications accurately and on time. Missed or delayed doses can negatively impact treatment outcomes and increase the likelihood of complications. Caregivers often lack real-time visibility into whether a dependent has taken prescribed medicines. Existing solutions are fragmented — some provide simple alarms, others provide logging but lack convenience or analytics. There is a need for a cohesive, easy-to-use platform that combines reminders, confirmation, adherence analytics, and an accessible UI that works on desktop and mobile browsers. Additionally, healthcare providers and researchers can benefit from aggregated adherence patterns (with consent) to monitor population-level effects. The problem is therefore to design and build a system that reliably reminds users, records intake events, presents clear adherence metrics, and provides an approachable interface for both users and administrators. The solution must work under real-world constraints: intermittent connectivity, privacy and security regulations, and varied user abilities.
+
+1.3 Objective and Importance
+The primary objective of DoseMate is to increase medication adherence by providing timely reminders, a simple confirmation workflow, and actionable insights into intake patterns. Secondary objectives include enabling caregivers to monitor adherence, allowing physicians to see anonymized trends for therapy optimization, and providing a usable, accessible UI with low friction for older adults. The importance of the project extends to public health: better adherence reduces hospital readmissions, improves chronic disease management, and can lower healthcare costs. For individual users, improved adherence means better health outcomes and peace of mind. The product emphasizes security, privacy-by-design, and modularity so that components (reminder engine, analytics, notifications) can be improved independently. The project also serves as an educational capstone demonstrating full-stack design, system integration, and testing practices.
+
+2. System Analysis
+
+2.1 Requirement Analysis
+Functional requirements: the system must allow users to register and authenticate, add and edit medicines, schedule reminders with frequency and time options, receive visible reminders and mark doses as taken or missed, view adherence analytics (daily/weekly/monthly), and manage user profiles. It must send notifications (browser push or email) and optionally support multiple devices per account. Admin functions (optional) include user management and aggregated reporting. Non-functional requirements: the system must be responsive, operate under intermittent connectivity, be secure (JWT authentication, hashed passwords), perform within acceptable latency bounds, and persist data reliably in a database with backups. Accessibility and localization should be considered. The platform should be deployable to standard cloud environments and must use established libraries and frameworks for maintainability. The requirement analysis also identifies constraints: third-party notification services, browser push capability, and regulatory considerations for health data storage. The system should be designed to allow instrumentation and logging for debugging and auditing.
+
+2.2 Functional/Non-functional Requirements
+Functional requirements (detailed): user registration and login; password change and reset flows; CRUD for medicines (name, dose, frequency, instructions); CRUD for reminders (date/time, repeat rules, timezone support); intake confirmation (TAKEN/MISSED); historical logs and manual edits; charts and reports for adherence rate; export / import of medicine lists; profile editing and change password endpoints; basic role separation for normal users and admins; socket or polling based real-time updates for reminders. Non-functional requirements: secure storage (encrypted at rest if required, secure transport via HTTPS), authentication via JWT with refresh tokens or sessions, scalability for thousands of users, fault tolerance in the reminder scheduler, maintainability through modular code and tests, performance benchmarks for common operations, and cross-browser compatibility. Availability requirements include service uptime commitments for deployed instances and robust error-handling for degraded network conditions. Privacy requirements require minimal personal data collection, explicit consent for sharing, and a clear privacy policy.
+
+2.3 Feasibility Study
+Technical feasibility: The project can be built using modern web stacks (React + Material UI for frontend; Spring Boot/Node.js for backend; relational DB like PostgreSQL) and leverages browser push for notifications or fallback to polling and email. Financial feasibility: initial development cost is limited for a prototype; hosting costs can be modest using PaaS; optional third-party services (SMS or advanced push) may increase costs. Operational feasibility: the application requires ongoing maintenance, updates for libraries, and monitoring to ensure timely delivery of reminders. Legal feasibility: storing medical-related reminders may be considered protected health information in some jurisdictions; the initial prototype should minimize sensitive data storage and include a plan for compliance if scaled. Schedule feasibility: a baseline MVP (user registration, basic reminders, intake logging, and charts) can be built over weeks with a small team; full compliance features and integrations follow with additional effort. Risk analysis: third-party dependencies (push APIs), device/browser compatibility for notifications, and user adoption are key risks; mitigations include graceful degradation where push is unavailable, robust testing, and clear onboarding.
+
+3. System Design
+
+3.1 UML Diagrams (Use Case, Class, Activity, State)
+Use Case overview: Primary actors include Registered User, Caregiver, Admin, and System Scheduler. Primary use cases: Register/Login, Add/Edit Medicine, Schedule Reminder, Receive Reminder, Mark Dose (Taken/Missed), View Adherence Reports, and Admin Monitoring. Class Diagram: key domain classes are User, Medicine, Reminder, IntakeEvent, Notification, and Report. The backend service layer includes AuthService, MedicineService, ReminderService, NotificationService, and AnalyticsService. Activity Diagrams: the reminder flow starts with scheduling rules, stored triggers in the scheduler that queue notifications at reminder time, the client receives the notification and presents UI to confirm dose, feeds an IntakeEvent back to the server which updates metrics. State Diagram: the Reminder entity cycles through states (ACTIVE, PAUSED, EXPIRED), IntakeEvent cycles through (SCHEDULED, PENDING, TAKEN, MISSED). Each diagram would be drawn using a UML tool for the final hardcopy; in text form we enumerate relationships and transitions clearly and link them to implementation components. The design explicitly separates concerns: UI layer (React + MUI) interacts with REST endpoints; services encapsulate business logic; a scheduler (in-process or separate worker) handles timing; persistence uses a relational schema.
+
+3.2 Data Flow Diagrams (DFD) Level 0,1,2,3
+Level 0 (context diagram): shows the system as a single process interacting with external entities: Users, Notification Providers, and Admins. Level 1 decomposes into core processes: Authentication, Reminder Management, Notification Delivery, Intake Logging, and Analytics Generation. Data stores include User DB, Medicine DB, Reminder DB, Intake Logs, and Audit logs. Level 2 expands the Notification Delivery into sub-processes: Schedule Evaluation, Notification Formatting, Provider Dispatch, and Delivery Acknowledgement. Level 3 details queue and retry mechanisms, i.e., reminder triggers place tasks into a queue, worker picks tasks, performs sending, handles failures and retries, and records delivery metadata. The DFDs illustrate how data flows between client, server, scheduler, and notification services. For the hard copy, each DFD level will be drawn and annotated with data stores and flow descriptions. Inputs and outputs for each process are defined (e.g., Reminder Management receives user commands and outputs scheduled tasks). The diagrams ensure no data flow cycles without proper control and that sensitive data flows are minimized.
+
+3.3 ER Diagrams
+The ER model centers on `User`, `Medicine`, `Reminder`, and `IntakeEvent`. User has attributes: id, email, passwordHash, firstName, lastName, createdAt, updatedAt. Medicine has id, userId (FK), name, dosage, form, instructions, createdAt. Reminder has id, medicineId (FK), userId (FK), scheduleSpec (cron or custom rule), timezone, nextTriggerAt, status. IntakeEvent logs id, reminderId (FK), userId (FK), scheduledAt, takenAt, status (TAKEN/MISSED), notes. Additional tables: Device (for registered browsers/devices), NotificationLog (delivery metadata), Role or AccessControl if needed, AuditLog for admin actions. ER relationships: User 1—N Medicine, Medicine 1—N Reminder, Reminder 1—N IntakeEvent. Indexes: composite indexes on userId and createdAt for efficient historical queries, and on reminder nextTriggerAt for scheduler performance. Normalization and referential integrity constraints are applied; larger-scale deployments consider archival strategies for older intake events.
+
+3.4 Database Design
+Choice of relational DB (PostgreSQL) supports strong consistency, indexing, and advanced queries for analytics. Tables are created according to ER model with appropriate column types and constraints, e.g., `email` unique on User, `scheduleSpec` stored as JSONB or structured fields for recurrence. Use migrations (Flyway or Liquibase) to manage schema changes. Data retention policies are defined for intake logs: e.g., keep detailed logs for 2 years and aggregated metrics thereafter to reduce storage. Backups and restoration procedures are specified. Connection pooling and read-replica configurations are discussed for scalability. Security settings: database credentials in environment variables, least privilege accounts for app access, and optional column-level encryption for fields containing sensitive personal data. The schema supports joining for analytics queries and materialized views for heavy aggregation.
+
+3.5 UI Design/Layout
+The UI uses a responsive grid with a focus on legibility and accessible controls. Key pages: Dashboard (overview and adherence widgets), Medicine List (CRUD operations), Reminders (list and scheduling UI), Add/Edit Medicine, History (timeline of intake events), Profile settings. Primary color palette uses the brand green (#009665) with complementary accents; high-contrast modes and a dark theme are supported for accessibility. The registration and login flows are laid out to minimize friction, with a two-column layout for the register page (form + visual) and a similar mirrored layout for login. Controls follow Material UI patterns: text fields, date/time pickers, dialogs for critical confirmations, and toasts for ephemeral notices. UI wireframes should be created and included in the hard copy; the implemented pages use MUI components and custom CSS for the glassy premium look discussed earlier.
+
+4. Implementation
+
+4.1 Platform and Tools Used
+Frontend: React, Vite, Material-UI (MUI) for components, Recharts for charts, Axios for HTTP. Development tooling: ESLint, Prettier, and unit testing with Jest/React Testing Library. Backend: Spring Boot (Java) or Node/Express (the repository contains a Spring Boot backend), Maven for builds, WebSocket support for real-time events, and scheduling components (Quartz or Spring Scheduler). Database: PostgreSQL. DevOps and hosting: Docker for containerization, optional deployment to Heroku/Render/Azure/GCP, CI via GitHub Actions for build and tests. Monitoring: application logs stored via a centralized logging solution, and simple health checks for uptime. Security tooling: OWASP guidelines considered; dependencies scanned via Snyk or similar. The implementation uses the MVC pattern in the backend and component-driven architecture on the frontend.
+
+4.2 Code Snippets with Explanation
+Example (User registration endpoint - simplified):
+- Controller (Java/Spring Boot): handles POST /api/auth/register, validates payload, calls UserService to create user.
+- Service: checks for existing email, hashes password, persists user, sends welcome notification.
+Code snippet (pseudocode):
+```
+@PostMapping("/register")
+public ResponseEntity register(@RequestBody RegisterRequest req) {
+  userService.register(req);
+  return ResponseEntity.ok(Map.of("message","registered"));
+}
+```
+Explanation: The controller delegates business logic to the service layer, which handles validation and persistence; responses are standardized JSON objects. Frontend example (register form submit using Axios):
+```
+await api.post('/auth/register', { firstName, lastName, email, password, age })
+```
+Explanation: The frontend collects form input and posts to the backend using the shared `api` Axios instance. Charts example: Recharts BarChart configured to display weekly adherence with two series (taken and total), using `ResponsiveContainer` to scale to container width.
+
+4.3 Sample Input and Output
+Sample input (register payload):
+```
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john@example.com",
+  "password": "Secret123!",
+  "age": 42
+}
+```
+Sample output (success):
+```
+{ "message": "Registration successful", "userId": 123 }
+```
+Sample input (schedule reminder):
+```
+{ "medicineId": 11, "schedule": { "type": "daily", "time": "08:00" }, "timezone": "Asia/Kolkata" }
+```
+Sample output (created reminder):
+```
+{ "reminderId": 501, "nextTriggerAt": "2025-12-22T08:00:00+05:30" }
+```
+
+5. Testing and Results
+
+5.1 Types of Testing Performed
+Unit testing: individual functions and small components are covered with Jest and JUnit tests for backend services. Integration testing: API endpoints tested using Spring Boot test utilities or SuperTest in Node, verifying end-to-end request/response semantics and DB interactions on an ephemeral test database. UI testing: React Testing Library ensures UI interactions behave as expected and important flows like registration/login and scheduling succeed. Manual testing: cross-browser validation (Chrome, Firefox, Edge, Safari) and mobile responsiveness checks. Performance testing: simulated reminder scheduling with many items to validate scheduler throughput and DB indexing. Security testing: basic vulnerability scans for dependencies, and ad-hoc penetration tests focusing on auth flows. Accessibility checks: use of tools like axe to ensure components meet basic a11y requirements.
+
+5.2 Errors & Debugging
+Common errors encountered: timezone mismatches for reminders leading to unintended trigger times; race conditions when multiple devices mark the same reminder; occasional WebSocket disconnections under poor network conditions. Debugging strategies: detailed server-side logging for the scheduler and notification delivery, client-side debug UI showing last-known reminder state, and retry logic for transient network errors. Fixes included normalizing all schedule times to UTC in storage while accepting/displaying localized times in the UI, improving optimistic UI handling to avoid double-marking, and adding reconnection/backoff logic for WebSocket clients. Database deadlocks: resolved by optimizing transactions, reducing lock contention, and adding targeted indices. Test suites were extended to capture discovered edge cases.
+
+5.3 Final Output
+The final application provides a responsive web UI with the following outputs: a dashboard overview of current adherence, charts showing trends, a medicines list, reminder scheduling UI, and a history of intake events. The system supports real-time updates for reminders and a robust intake confirmation flow. The outputs were validated against the requirements and an acceptance checklist. The project also includes documentation (this file), API specs, and an exported SQL schema and seed data for initial setup.
+
+6. Conclusion and Future Scope
+
+6.1 Project Summary
+DoseMate demonstrates a full-stack approach for building a medication reminder and adherence analytics system. It integrates a responsive frontend, a secure backend, a scheduling and notification engine, and a database with a history of intake events. The system meets core objectives of helping users remember and record medication intake, while providing analytics to track adherence over time. The implementation choices favor maintainability and extensibility.
+
+6.2 Limitations
+Current limitations include a prototype-level notification delivery that depends on in-browser push or polling in some environments; deeper integrations (SMS, telephony, advanced scheduling rules such as "take on alternate days") are not implemented. Privacy and regulatory compliance features (HIPAA/PIPEDA/Local regulations) require additional work and documentation before production deployment. Offline-first behavior is limited and could be improved with a local cache and background sync system. Internationalization beyond English is partial and requires content translation.
+
+6.3 Scope for Further Development
+Future work includes: integrated SMS and voice reminder channels, role-based multi-caregiver support with permissions, machine-learning models to predict adherence risk and proactively suggest interventions, better offline capabilities with service workers and background sync, and tighter integrations with electronic health records (EHR) using standards like FHIR. Additional analytics and export capabilities (CSV, PDF) and a mobile native app wrapper for push stability are also potential expansions.
+
+7. References
+- Official documentation for React, Material-UI (MUI), Recharts
+- Spring Boot reference guide (or Node/Express docs depending on backend)
+- OAuth and JWT specification texts for authentication guidance
+- OWASP top 10 and secure coding practices
+- Timezone and scheduling best practices, RFC 3339 for timestamp formatting
+- Academic and clinical literature on medication adherence and interventions
+
+Appendix
+- Example database schema (DDL), sample data seeds, and instructions to run the dev server should be included as separate attachments or appendices. For the purpose of the college submission, include diagrams exported from tools used to generate UML/DFD/ER diagrams and screenshots of the app UI.
+
+
+*** End of Document ***

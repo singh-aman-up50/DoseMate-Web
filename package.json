@@ -1,0 +1,29 @@
+{
+  "name": "dosemate",
+  "version": "1.0.0",
+  "description": "DoseMate - Medicine Reminder and Tracking System",
+  "scripts": {
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "cd backend && mvn spring-boot:run",
+    "frontend": "cd frontend && npm run dev",
+    "install-all": "npm install && cd backend && mvn clean install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "keywords": [
+    "medicine",
+    "reminder",
+    "tracker"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "autoprefixer": "^10.4.23",
+    "axios-retry": "^4.5.0",
+    "lucide-react": "^0.562.0",
+    "postcss": "^8.5.6",
+    "recharts": "^3.6.0",
+    "tailwindcss": "^4.1.18"
+  }
+}

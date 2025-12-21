@@ -1,0 +1,277 @@
+/* DoseMate Theme Configuration */
+/* This file controls all color variables for light and dark themes */
+
+:root {
+  /* Brand Colors */
+  --brand: #009665;
+  --brand-dark: #007a53;
+  --brand-light: #00d084;
+  --brand-600: #0f766e;
+  --accent: #DAF800;
+  --accent-light: #e8ff4d;
+  
+  /* Light Theme - Default */
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --border-color: rgba(0, 150, 101, 0.15);
+  --border-light: rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 150, 101, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 150, 101, 0.15);
+  --shadow-xl: 0 20px 60px rgba(0, 150, 101, 0.15);
+  --shadow-2xl: 0 30px 80px rgba(0, 150, 101, 0.2);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --input-bg: rgba(0, 150, 101, 0.02);
+  --input-border: rgba(0, 150, 101, 0.1);
+  --hover-bg: rgba(0, 150, 101, 0.05);
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  
+  /* Status Colors */
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
+  
+  /* Success Light/Dark variants */
+  --success-light: #81c784;
+  --warning-light: #ffb74d;
+  --error-light: #ef5350;
+}
+
+/* Dark Theme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #e5e7eb;
+    --text-muted: #d1d5db;
+    --bg-primary: #1a1a1f;
+    --bg-secondary: #242429;
+    --bg-tertiary: #2d2d33;
+    --border-color: rgba(218, 248, 0, 0.15);
+    --border-light: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
+    --shadow-2xl: 0 30px 80px rgba(0, 0, 0, 0.4);
+    --card-bg: rgba(30, 30, 35, 0.8);
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(255, 255, 255, 0.1);
+    --hover-bg: rgba(0, 150, 101, 0.1);
+    --overlay-bg: rgba(0, 0, 0, 0.7);
+    --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(218, 248, 0, 0.1);
+  }
+}
+
+/* Dark Mode Class (for manual theme toggle) */
+html[data-theme="dark"] {
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #d1d5db;
+  --bg-primary: #1a1a1f;
+  --bg-secondary: #242429;
+  --bg-tertiary: #2d2d33;
+  --border-color: rgba(218, 248, 0, 0.15);
+  --border-light: rgba(255, 255, 255, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
+  --shadow-2xl: 0 30px 80px rgba(0, 0, 0, 0.4);
+  --card-bg: rgba(30, 30, 35, 0.8);
+  --input-bg: rgba(255, 255, 255, 0.05);
+  --input-border: rgba(255, 255, 255, 0.1);
+  --hover-bg: rgba(0, 150, 101, 0.1);
+  --overlay-bg: rgba(0, 0, 0, 0.7);
+  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(218, 248, 0, 0.1);
+}
+
+/* Light Mode Class (for manual theme toggle) */
+html[data-theme="light"] {
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --border-color: rgba(0, 150, 101, 0.15);
+  --border-light: rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 150, 101, 0.1);
+  --shadow-lg: 0 10px 30px rgba(0, 150, 101, 0.15);
+  --shadow-xl: 0 20px 60px rgba(0, 150, 101, 0.15);
+  --shadow-2xl: 0 30px 80px rgba(0, 150, 101, 0.2);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --input-bg: rgba(0, 150, 101, 0.02);
+  --input-border: rgba(0, 150, 101, 0.1);
+  --hover-bg: rgba(0, 150, 101, 0.05);
+  --overlay-bg: rgba(0, 0, 0, 0.5);
+  --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+}
+
+/* Body Backgrounds */
+body {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Common Elements using Theme Variables */
+input,
+textarea,
+select {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+.card,
+[role="dialog"],
+.modal {
+  background-color: var(--card-bg);
+  border-color: var(--border-color);
+}
+
+/* Utility Classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-brand { color: var(--brand); }
+.text-accent { color: var(--accent); }
+
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+
+.border-color { border-color: var(--border-color); }
+.border-light { border-color: var(--border-light); }
+
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-2xl { box-shadow: var(--shadow-2xl); }
+
+.hover\:bg {
+  transition: background-color 0.3s ease;
+}
+
+.hover\:bg:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Gradient Backgrounds */
+.gradient-brand {
+  background: linear-gradient(135deg, var(--brand), var(--accent));
+}
+
+.gradient-subtle {
+  background: linear-gradient(135deg, rgba(0, 150, 101, 0.08), rgba(218, 248, 0, 0.03));
+}
+
+/* Theme Toggle Icon Base Styling */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--brand);
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(0, 150, 101, 0.2),
+    transparent
+  );
+  border: 1.5px solid var(--border-color);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1000;
+}
+
+.theme-toggle:hover {
+  background: rgba(0, 150, 101, 0.15);
+  transform: scale(1.1) rotate(20deg);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Tooltip */
+.theme-tooltip {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.3s ease-out;
+}
+
+.animate-slideInDown {
+  animation: slideInDown 0.3s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
