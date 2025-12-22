@@ -1,0 +1,70 @@
+Functional and Non-functional Requirements
+
+1. Functional Requirements (FR):
+FR-1: User Account Management
+- Users must be able to register, verify, log in, and log out.
+- Passwords must be stored securely (hashed).
+
+FR-2: Medicine CRUD
+- Users must be able to create, read, update, and delete medicine entries.
+- Each medicine entry should include name, dosage, frequency, instructions, start date, and optional end date.
+
+FR-3: Scheduling and Reminder Engine
+- Users must be able to schedule reminders (single, recurring, by interval).
+- System must store schedule configurations and trigger reminders at correct times.
+
+FR-4: Intake Logging
+- Users must be able to mark a reminder as taken, skipped, or delayed, with an optional note.
+- The system must record timestamped events in history.
+
+FR-5: History and Reporting
+- Users must be able to view, filter, and export intake history for a specified date range.
+
+FR-6: Caregiver Access (Optional Role)
+- Caregivers may be allowed to view another user's medication history after explicit permission.
+
+FR-7: Notifications
+- The system must log notification delivery attempts and statuses. External delivery (SMS/push) can be documented as optional.
+
+2. Non-Functional Requirements (NFR):
+NFR-1: Security
+- All communication must use HTTPS/TLS. Passwords must be hashed using a secure algorithm (e.g., bcrypt).
+- Authentication tokens should be short-lived with refresh mechanisms.
+
+NFR-2: Performance
+- API endpoints should respond in <500ms for typical queries.
+- Listing history should use pagination to avoid loading large datasets at once.
+
+NFR-3: Usability
+- UI must be responsive and accessible, supporting mobile devices and larger fonts for elderly users.
+- Actions such as confirming intake must be visible and accessible with minimal steps.
+
+NFR-4: Scalability
+- The architecture should allow horizontal scaling of the backend services and database as usage grows.
+
+NFR-5: Reliability
+- Reminders must be persisted and re-scheduled on server restarts; the scheduling engine should be fault-tolerant.
+
+NFR-6: Maintainability
+- Code should be modular, documented, and follow standard design patterns to ease future maintenance.
+
+NFR-7: Privacy
+- Personal health data must be protected. The system should avoid logging unnecessary sensitive fields and should provide clear data retention policies.
+
+NFR-8: Portability
+- Frontend should work across modern browsers. Backend should be deployable on common Java hosting environments.
+
+3. Priority and Traceability:
+- Required core features: FR-1, FR-2, FR-3, FR-4, NFR-1, NFR-4, NFR-5.
+- Optional features: caregiver role, external notification integrations.
+- Map each requirement to design documents and test cases to ensure traceability.
+
+4. Acceptance criteria (examples):
+- A user can add a medicine and see scheduled reminders appear.
+- When a reminder time occurs, the system marks it as triggered and users can confirm intake; the confirmation is recorded in history.
+- Security tests demonstrate that protected endpoints require valid authentication.
+
+5. Conclusion:
+This section enumerates both the features the application must provide and the quality attributes the system must satisfy. Delivering on these requirements ensures a usable, secure, and maintainable medication reminder application suitable for academic demonstration and limited real-world trials.
+
+(End of Functional and Non-Functional Requirements)

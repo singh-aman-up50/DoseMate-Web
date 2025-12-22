@@ -1,0 +1,39 @@
+Project Summary
+
+1. Project overview:
+DoseMate is a web-based medication reminder and intake tracking application designed to help users manage medicines reliably. It integrates a React frontend and a Spring Boot backend, providing scheduling, notifications, intake logging, and historical reporting.
+
+2. Major components:
+- Frontend SPA: React components, pages, and context providers for authentication and theming.
+- Backend API: Spring Boot controllers, services, and repositories handling business logic and persistence.
+- Database: Relational data model storing users, medicines, schedules, reminders, history, and notification logs.
+- Scheduler: Component responsible for computing next-run times and triggering reminders.
+
+3. Key functional highlights:
+- Secure user registration and login.
+- Medicine and schedule management with flexible recurrence patterns.
+- Real-time in-app notifications via WebSocket and a pluggable notification layer.
+- Intake logging with timestamped history and export capabilities.
+
+4. Non-functional highlights:
+- Focus on usability and accessibility to accommodate elderly users.
+- Security measures such as hashed passwords and token-based authentication.
+- Basic reliability measures including schedule reconciliation and logging.
+
+5. Academic contributions:
+- Demonstrates software engineering processes: requirements, design, implementation, testing, and documentation.
+- Provides clear mapping between requirements and implemented features for ease of grading.
+- Offers a basis for further research or enhancements in healthcare informatics.
+
+6. How to run the system (brief):
+- Frontend: Navigate to `frontend/`, run `npm install`, then `npm run dev`.
+- Backend: Navigate to `backend/`, run `mvn clean install`, then `mvn spring-boot:run`.
+- Ensure backend API base URL is configured in frontend `api/axios.js` or use proxy settings for development.
+
+7. Packaging for submission:
+- Include source code, generated artifacts (build outputs), exported diagrams (UML, ER, DFD images), test reports, and sample data dumps.
+
+8. Final status:
+- Core features implemented and validated; remaining work centers on production hardening and optional integrations.
+
+(End of Project Summary)

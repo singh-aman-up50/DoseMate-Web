@@ -1,0 +1,54 @@
+Requirement Analysis
+
+1. Purpose:
+Requirement analysis converts stakeholder needs into a detailed specification the development team can implement. It distinguishes must-have features from optional capabilities and lays out acceptance criteria.
+
+2. High-level user stories:
+- As a user, I want to register and log in securely so only I can see my medicines.
+- As a user, I want to add medicines with dose and schedule details so I know when to take them.
+- As a user, I want to receive timely reminders so I don't miss doses.
+- As a user, I want to log that I took a dose so I can track adherence.
+- As a caregiver, I want to view a user's intake history with permission so I can monitor care.
+
+3. Detailed functional requirements:
+- User authentication: registration, login, password reset.
+- Medicine management: add, edit, delete medicine entries with metadata (name, dosage, instructions).
+- Scheduling: support daily schedules, specific days, intervals (e.g., every 8 hours), and one-time reminders.
+- Reminder engine: trigger reminders at scheduled times; mark reminders as sent and delivered.
+- Intake logging: record timestamped confirmations (taken, skipped, delayed), with optional notes.
+- History and reports: list historical intake events with filters (date range, medicine).
+- Profile management: user can edit personal details and time zone.
+
+4. Detailed non-functional requirements:
+- Security: TLS for transport, hashed passwords, role-based access.
+- Performance: API response < 500ms under normal load and reasonable pagination for lists.
+- Usability: Responsive UI, accessible controls for elderly users (large fonts, high contrast options).
+- Reliability: Reminder scheduling must not lose events on server restart.
+- Maintainability: Clean code structure, modular services, and clear documentation.
+
+5. Data integrity and validation rules:
+- Medicine name cannot be empty; dosage must be a valid numeric value with units.
+- Schedule times must be valid timestamps and within user-configured timezone.
+- History entries must include user id, medicine id, timestamp, and status.
+
+6. Acceptance criteria:
+- End-to-end scenario verifying that adding a medicine leads to scheduled reminders and confirmed intake is recorded.
+- Unit tests for key business logic and at least one integration test for reminder scheduling.
+
+7. External interfaces and APIs:
+- REST APIs for frontend-backend interaction.
+- Optional external notification APIs (e.g., push or SMS gateways) described as future work or integrated if available.
+
+8. Error handling requirements:
+- Friendly error messages for user input validation failures.
+- Server-side logging for unexpected exceptions with minimal exposure to users.
+
+9. Internationalization and timezone handling:
+- System records times with timezone information; UI displays times in user's local timezone.
+- Text should be easy to extend for translations in future.
+
+10. Traceability and versioning:
+- Requirements mapped to implementation tasks in documentation for grading purposes.
+- API endpoints versioned to support backward compatibility for future mobile clients.
+
+(End of Requirement Analysis)

@@ -1,0 +1,55 @@
+Errors & Debugging
+
+1. Purpose:
+Document common errors encountered during development and the debugging techniques used to resolve them. This helps reviewers understand problem-solving approaches and provides reproducible steps for maintenance.
+
+2. Common error categories encountered:
+- Scheduling logic errors (incorrect next-run computation)
+- Timezone and daylight saving issues
+- Race conditions when editing schedules concurrently
+- Authentication failures due to token handling
+- UI state synchronization issues causing stale data displays
+
+3. Example Issue 1: Incorrect next-run after timezone change
+- Symptom: A reminder scheduled at 08:00 appeared an hour off after a timezone or DST change.
+- Diagnosis: Use of local server time instead of user-specific timezone when computing next-run.
+- Fix: Store user timezone and use timezone-aware APIs (Java ZonedDateTime) to compute next-run.
+
+4. Example Issue 2: Missed reminders after server restart
+- Symptom: Reminders scheduled while the server was stopped were not delivered after restart.
+- Diagnosis: In-memory scheduler lost scheduled jobs on restart.
+- Fix: On startup, compute due reminders from `next_run` in the database and re-register them with the scheduler; implement reconciliation job to detect and mark missed events.
+
+5. Example Issue 3: Race condition updating schedule
+- Symptom: Editing a schedule while a reminder was due caused duplicate reminders.
+- Diagnosis: Concurrent update triggered both creation and execution paths.
+- Fix: Use database transactions and optimistic locking; verify `next_run` before insertion to avoid duplicates.
+
+6. Debugging techniques used:
+- Logging: Add structured logs at key lifecycle points (schedule creation, trigger, notification delivery) to trace flows.
+- Breakpoints and step-through debugging in IDE for back-end logic.
+- Browser dev tools and network tracing for frontend API issues.
+- API testing with Postman to validate server responses independent of frontend.
+
+7. Monitoring and alerts:
+- Implemented simple health-check endpoints and log monitoring for unexpected exception spikes.
+- NotificationLog analysis used to detect elevated delivery failure rates and trigger investigation.
+
+8. Error reporting to users:
+- Provide clear, friendly error messages for validation issues.
+- For unexpected server errors, avoid exposing stack traces; return generic messages and log details server-side.
+
+9. Preventive measures:
+- Unit tests for schedule and time computations.
+- Integration tests for API flows to catch regressions early.
+- Input validation enforced at both frontend and backend.
+
+10. Example log excerpt (for a triggered reminder):
+INFO  [SchedulerService] Triggering reminder rmd-uuid-789 for user user-uuid-123 at 2025-12-22T08:00:05+05:30
+INFO  [NotificationService] Sent notification via WEBSOCKET, status=DELIVERED
+INFO  [IntakeService] Intake recorded intake-uuid-321 for reminder rmd-uuid-789, status=TAKEN
+
+11. Conclusion:
+The errors encountered were typical of scheduling and distributed event-driven systems. Applying timezone-aware APIs, persistent schedule reconciliation, stronger locking strategies, and comprehensive logging resolved the major issues. These resolutions are documented and provide guidance for maintaining and extending DoseMate.
+
+(End of Errors & Debugging)

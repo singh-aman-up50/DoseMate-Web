@@ -1,0 +1,54 @@
+Testing and Results
+
+1. Testing objectives:
+- Verify correctness of functional requirements (registration, scheduling, reminders, intake logging).
+- Validate non-functional aspects such as performance, reliability, and security basics.
+- Demonstrate test evidence for academic evaluation.
+
+2. Test strategy:
+- Unit testing for services and core logic (schedule computation, validation).
+- Integration testing for REST endpoints and database interactions.
+- End-to-end testing simulated by manual scenarios or automated UI tests using tools like Cypress.
+- Load and stress tests for scheduler under simulated concurrency (optional for demonstration).
+
+3. Unit tests performed:
+- Schedule computation tests: verify next-run calculation for daily, interval, and custom patterns.
+- Input validation tests: ensure invalid schedule times or dosage values produce errors.
+- Notification logging tests: ensure delivery attempts are logged correctly.
+
+4. Integration tests performed:
+- Auth + CRUD flow: register user -> create medicine -> create schedule -> verify reminder persisted.
+- Reminders processing: simulate scheduler trigger and verify notification creation and intake logging.
+
+5. Manual end-to-end tests:
+- User registers and adds a daily medicine, waits for scheduled reminder, confirms intake, and checks history.
+- Edge-case tests: add schedule near midnight to verify timezone handling.
+
+6. Test results summary (example):
+- Unit tests: 28 tests, 0 failures.
+- Integration tests: key flows passed; minor timing issue corrected in scheduler reconciliation logic.
+- Manual tests: all primary flows functioned as expected in local environment.
+
+7. Performance observations:
+- Local development instance handled small simulated loads; the scheduler and DB queries were within acceptable latencies for a demo environment.
+- Indexing improvements were added for history queries to improve retrieval times for long date ranges.
+
+8. Security testing:
+- Verified that unauthenticated requests to protected endpoints return 401 Unauthorized.
+- Confirmed that passwords are stored as hashed values and not returned in API payloads.
+
+9. Bugs found and resolved (summary):
+- Issue: Reminder times computed incorrectly after daylight saving change — fix: use timezone-aware APIs and store timezone per user.
+- Issue: Race condition when editing a schedule while a reminder was being triggered — fix: added transactional checks and locking.
+
+10. Test artifacts and evidence:
+- Include unit test reports (e.g., surefire reports for Maven) and screenshots for UI test flows in the appendix of the printed documentation.
+- Provide sample logs showing scheduled trigger and intake logging entries for reviewer verification.
+
+11. Limitations of testing:
+- The project was tested in a local environment; production conditions (e.g., distributed deployment, large user base) may reveal scaling issues not covered in this academic submission.
+
+12. Conclusion of testing results:
+Testing demonstrates that the core functionality of DoseMate is stable and meets the acceptance criteria defined in the requirements. Remaining improvements are mostly related to operational scaling and optional notification adapters.
+
+(End of Testing and Results)

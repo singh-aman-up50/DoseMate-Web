@@ -1,0 +1,41 @@
+Limitations
+
+1. Scope limitations:
+- External notification channels (SMS/push) are described and may be partially mocked; full integration with commercial gateways may not be implemented in the baseline version.
+- Integration with pharmacy or clinical systems (EHR) is outside the project scope.
+
+2. Functional limitations:
+- Multi-user caregiver workflows are limited to basic sharing; advanced role-based controls are not fully implemented.
+- Offline and background notification handling is constrained; the web app relies on active sessions or external push services for real-time alerts.
+
+3. Performance and scalability constraints:
+- The prototype was tested at small scale; the current scheduler and database configuration are not tuned for large-scale production traffic.
+- There is no built-in horizontal scaling configuration for the scheduler — a central job queue or distributed scheduler would be required for robust scaling.
+
+4. Security and compliance limitations:
+- While basic security best practices are followed (hashed passwords, HTTPS), full regulatory compliance (e.g., HIPAA) is not claimed for this academic project.
+- Audit logging for all sensitive operations is basic; more rigorous audit trails and access controls are recommended for production.
+
+5. Testing limitations:
+- Load and stress testing were minimal; the project emphasizes functional correctness rather than extensive performance testing.
+- Usability testing was limited to informal sessions; formal user studies were not conducted.
+
+6. Reliability limitations:
+- In-memory scheduling approaches can lose job definitions on restart; while reconciliation fixes mitigate this, a persistent job engine is preferable for production.
+
+7. Operational limitations:
+- Backup and disaster recovery procedures are outlined but not fully automated for the demo deployment.
+- Monitoring and alerting are suggested but not integrated into the demo environment.
+
+8. Data retention and privacy limitations:
+- Data retention policies are described but archival automation is not implemented; for long-term deployments, retention and anonymization strategies must be enforced.
+
+9. Mitigation recommendations:
+- Adopt a persistent message broker (RabbitMQ/Kafka) or use a managed job scheduler for reliability.
+- Integrate managed database services and set up automated backups.
+- Extend security controls and logging to meet regulatory requirements if handling real patient data.
+
+10. Conclusion:
+These limitations identify areas where the prototype must be extended and hardened for production use, but they do not prevent the system from serving as a solid academic demonstration of medication reminder functionality.
+
+(End of Limitations)

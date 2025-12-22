@@ -1,0 +1,42 @@
+Project Title
+
+1. Title:
+DoseMate — Intelligent Medication Reminder and Intake Tracking System
+
+2. Short Title and Tagline:
+DoseMate: "Never Miss A Dose"
+
+3. Rationale behind the title:
+The name 'DoseMate' conveys a friendly assistant or companion that helps users manage medication doses. 'Dose' directly references medication dosing while 'Mate' suggests a helper, aligning with the app's goal of being a reliable daily companion for medication adherence.
+
+4. Project classification:
+- Type: Web application with backend services.
+- Domain: Healthcare / Digital health / Personal health management.
+- Use Case: Medication reminders, intake logging, adherence reporting.
+
+5. Components summarized:
+- Frontend: Single Page Application (SPA) built with React (JSX) and Vite.
+- Backend: Spring Boot application providing RESTful APIs, scheduled tasks, and WebSocket support.
+- Database: Relational database for persistent storage of users, medicines, reminders, and history.
+- Optional integrations: Push notification gateway or SMS gateway for external reminders.
+
+6. Scope indicated by the title:
+DoseMate focuses on user-centered medication management with features that can be extended to clinical monitoring, multi-user caregiver dashboards, and analytics. The title reflects both the primary functionality (dosing reminders) and the supportive nature of the application.
+
+7. Target audience match:
+The title is approachable and non-technical, suitable for patients, caregivers, and health professionals, making it appropriate for both end-user adoption and academic project presentation.
+
+8. Academic relevance:
+DoseMate demonstrates practical application of web development, system design, database modeling, and security—topics important in academic evaluation: software engineering, system analysis, and database design.
+
+9. Expected submission materials under this title:
+- Source code (frontend and backend)
+- Diagrams (UML, DFD, ER)
+- Installation and usage instructions
+- Test cases and results
+- Project report with conclusions and future scope
+
+10. Concluding note:
+The project title encapsulates the core idea: a dependable tool to assist users in taking medications correctly and on time. For grading and evaluation, the title provides a memorable identity linked to the application's practical benefits.
+
+(End of Project Title)

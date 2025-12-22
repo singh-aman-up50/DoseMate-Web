@@ -1,0 +1,56 @@
+Platform and Tools Used
+
+1. Overview:
+This project uses a modern web development toolchain: React for the frontend, Vite as the build tool, and Spring Boot for the backend, with a relational database for persistence. The choice of tools balances developer productivity and demonstration of industry-standard technologies.
+
+2. Frontend tools and libraries:
+- React: UI library for building component-based interfaces.
+- Vite: Development server and bundler for faster builds and HMR (hot module replacement).
+- Tailwind CSS: Utility-first CSS framework for fast, responsive styling.
+- Axios: Promise-based HTTP client used for API calls.
+- React Router: Client-side routing for single-page application behavior.
+
+3. Backend tools and libraries:
+- Java 11+ (or compatible JVM): Language and runtime for backend.
+- Spring Boot: Rapid backend framework for building RESTful APIs and WebSocket endpoints.
+- Spring Data JPA: Simplifies database access and repositories.
+- H2 (development) / PostgreSQL (production): Relational databases for persistence.
+- Maven: Build and dependency management tool for Java.
+
+4. Development tools:
+- Node.js and npm/yarn: For managing frontend packages and scripts.
+- IntelliJ IDEA / VS Code: Recommended IDEs for Java and JavaScript development.
+- Git: Version control for source code management.
+
+5. Testing tools:
+- JUnit for backend unit/integration tests.
+- React Testing Library / Jest for frontend unit tests.
+- Postman or curl for manual API testing.
+
+6. Optional infrastructure/tools for production:
+- Docker: Containerize backend and frontend for deployment and reproducibility.
+- CI/CD: GitHub Actions or similar for automated builds and tests.
+- Monitoring: Prometheus + Grafana or cloud monitoring for production health checks.
+
+7. Rationale for tool selection:
+- React + Vite offers a fast development loop and modern frontend patterns.
+- Spring Boot is widely used in enterprise and academic settings, making it ideal for demonstrating server-side principles.
+- Tailwind CSS enables quick styling without complex CSS architecture.
+
+8. Version and compatibility notes:
+- Use Node 16+ for compatibility with Vite and modern packages.
+- Use Java 11 or later for Spring Boot compatibility.
+- Keep Maven dependencies aligned with Spring Boot version to avoid mismatches.
+
+9. Installation quick commands (setup summary):
+- Frontend:
+  - `npm install`
+  - `npm run dev`
+- Backend:
+  - `mvn clean install`
+  - `mvn spring-boot:run`
+
+10. Conclusion:
+The selected platforms and tools support a robust and modern full-stack application suitable for academic demonstration and straightforward to extend for production scenarios.
+
+(End of Platform and Tools Used)

@@ -1,0 +1,54 @@
+Implementation
+
+1. Implementation overview:
+DoseMate is implemented as a full-stack web application. The frontend uses React for the user interface and Vite for development tooling. The backend is a Spring Boot application exposing REST APIs and WebSocket support for real-time notifications. The persistence layer uses a relational database accessible via Spring Data JPA.
+
+2. Package and project layout (high-level):
+- Frontend:
+  - `src/` contains `pages`, `components`, `api` wrappers, and `context` providers (Auth and Theme).
+  - `main.jsx` bootstraps the app and `App.jsx` defines routes and layout.
+- Backend:
+  - `com.dosemate.controller` contains REST controllers for auth, medicines, reminders, and history.
+  - `com.dosemate.service` contains business logic components (scheduling, notification, reconciliation).
+  - `com.dosemate.repository` contains Spring Data JPA interfaces mapping to database entities in `model`.
+
+3. Important implementation decisions:
+- DTOs are used to decouple internal models from external API contracts, easing future migration.
+- Scheduling uses a configurable scheduler: for demonstration, a cron-like scheduler or a Java ScheduledExecutorService may be used; a persistent job queue is documented for production.
+- Authentication uses token-based approach; JWT is recommended for stateless session handling.
+
+4. Integration and communication patterns:
+- The frontend calls backend REST endpoints using an `axios` instance configured with base URL and auth token.
+- WebSocket endpoints provide push messages to active clients for immediate reminder notifications.
+
+5. Error handling strategy:
+- Centralized exception handling in backend using `@ControllerAdvice` to format API error responses.
+- Frontend displays toast messages for user feedback and handles API errors by redirecting to login on auth failures.
+
+6. Logging and monitoring:
+- Backend logs events such as reminder triggers, notification deliveries, and critical errors with appropriate log levels.
+- For debugging during development, console logs and dev tools in React are used.
+
+7. Deployment approach:
+- Development: Run frontend using `npm run dev` and backend using `mvn spring-boot:run`.
+- Production: Build frontend static assets and serve them via a static server or integrate into backend resource bundle; run backend as a jar in a managed VM or container.
+
+8. Code modularity and reuse:
+- Services are designed to be stateless where possible to facilitate horizontal scaling.
+- Notification adapters follow a defined interface to add new channels (push, SMS) without affecting core logic.
+
+9. Build and run instructions (abridged):
+- Frontend: `npm install` then `npm run dev` to start.
+- Backend: `mvn clean install` then `mvn spring-boot:run` to start the API.
+
+10. Implementation caveats:
+- For demonstration, an in-memory scheduler may be used; production must use persistent job scheduling or a queue system to guarantee delivery across restarts.
+
+11. Testing implementation details:
+- Unit tests validate core business logic (schedule computation, intake reconciliation).
+- Integration tests exercise API endpoints and simulate scheduler-triggered flows.
+
+12. Conclusion:
+The implementation ties together a modern frontend stack and a robust backend service layer with considerations for security, reliability, and maintainability. The design and implementation choices support straightforward extensions for production-grade features.
+
+(End of Implementation)

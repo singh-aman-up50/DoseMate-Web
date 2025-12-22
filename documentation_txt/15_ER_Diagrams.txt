@@ -1,0 +1,55 @@
+ER Diagrams
+
+1. Purpose:
+This file describes the Entity-Relationship (ER) model used to design the DoseMate relational database. The ER diagram maps entities, attributes, primary keys, and relationships.
+
+2. Core entities:
+- User (UserId PK, Name, Email, PasswordHash, Timezone, CreatedAt)
+- Medicine (MedicineId PK, UserId FK, Name, Dosage, DosageUnit, Instructions, StartDate, EndDate)
+- Schedule (ScheduleId PK, MedicineId FK, Pattern, TimeOfDay, RepeatInterval, DaysOfWeek, NextRun)
+- Reminder (ReminderId PK, ScheduleId FK, ScheduledTime, TriggeredAt, Status)
+- IntakeHistory (IntakeId PK, ReminderId FK, UserId FK, Timestamp, Status, Note)
+- NotificationLog (LogId PK, ReminderId FK, DeliveryTime, Channel, Status, Response)
+
+3. Relationships and cardinality:
+- User 1 - * Medicine (one user can have many medicines)
+- Medicine 1 - * Schedule (each medicine can have multiple schedules)
+- Schedule 1 - * Reminder (schedules produce many reminder instances)
+- Reminder 0..1 - 1 IntakeHistory (a reminder may result in a single intake record)
+- Reminder 1 - * NotificationLog (a reminder may generate multiple delivery attempts)
+
+4. Foreign key constraints:
+- Medicine.UserId references User.UserId
+- Schedule.MedicineId references Medicine.MedicineId
+- Reminder.ScheduleId references Schedule.ScheduleId
+- IntakeHistory.ReminderId references Reminder.ReminderId
+- NotificationLog.ReminderId references Reminder.ReminderId
+
+5. Indexing recommendations:
+- Index on UserId for fast lookup of user medicines and history.
+- Index on Reminder.ScheduledTime for efficient scheduler queries.
+- Composite index on (UserId, Timestamp) in IntakeHistory for fast reporting.
+
+6. Normalization notes:
+- The schema is normalized to 3NF for the core entities: repeated fields are extracted into related tables.
+- If the system grows in complexity, consider audit tables and versioning tables for historical state.
+
+7. Example SQL table skeletons (abbreviated):
+- Users(id UUID PK, name VARCHAR, email VARCHAR UNIQUE, password_hash VARCHAR, timezone VARCHAR, created_at TIMESTAMP)
+- Medicines(id UUID PK, user_id UUID FK, name VARCHAR, dosage DECIMAL, unit VARCHAR, instructions TEXT, start_date DATE, end_date DATE)
+- Schedules(id UUID PK, medicine_id UUID FK, pattern VARCHAR, time_of_day TIME, repeat_interval INT, days_of_week VARCHAR, next_run TIMESTAMP)
+- Reminders(id UUID PK, schedule_id UUID FK, scheduled_time TIMESTAMP, triggered_at TIMESTAMP, status VARCHAR)
+- IntakeHistory(id UUID PK, reminder_id UUID FK, user_id UUID FK, timestamp TIMESTAMP, status VARCHAR, note TEXT)
+- NotificationLog(id UUID PK, reminder_id UUID FK, delivery_time TIMESTAMP, channel VARCHAR, status VARCHAR, response TEXT)
+
+8. Diagramming guidance:
+- Use a diagram tool (draw.io, MySQL Workbench, or dbdiagram.io) to create a clear ER image for the printed report.
+- Include attribute types and PK/FK markers for clarity.
+
+9. Data retention and archival:
+- Determine retention policies for IntakeHistory and NotificationLog to manage database size; archive older records if needed.
+
+10. Conclusion:
+This ER model provides a robust relational foundation for the DoseMate application. The schema supports flexible scheduling, reliable reminder tracking, and comprehensive intake history for reporting and reconciliation.
+
+(End of ER Diagrams)

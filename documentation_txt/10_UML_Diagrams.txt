@@ -1,0 +1,80 @@
+UML Diagrams (Use Case, Class, Activity, State)
+
+1. Use Case Diagram (textual description):
+Actors:
+- User (patient)
+- Caregiver (optional role)
+- System (scheduled tasks)
+
+Use Cases:
+- Register / Login
+- Add/Edit/Delete Medicine
+- Schedule Reminder
+- Receive Reminder
+- Confirm Intake (Taken/Skipped/Delayed)
+- View History / Reports
+- Manage Profile
+- (Optional) Share Access with Caregiver
+
+Use Case relationships:
+- "Receive Reminder" is included in "Schedule Reminder" as a triggered action.
+- "Confirm Intake" extends "Receive Reminder" for user-initiated confirmation.
+
+2. Class Diagram (key classes and relationships):
+Domain classes:
+- User {id, name, email, passwordHash, timezone}
+- Medicine {id, userId, name, dosage, instructions, startDate, endDate}
+- Schedule {id, medicineId, pattern, timeOfDay, repeatInterval, daysOfWeek}
+- Reminder {id, scheduleId, scheduledTime, status}
+- IntakeHistory {id, reminderId, userId, timestamp, status, note}
+- NotificationLog {id, reminderId, deliveryTime, status, channel}
+
+Associations:
+- User 1..* Medicine
+- Medicine 1..* Schedule
+- Schedule 1..* Reminder
+- Reminder 1 -> 0..1 IntakeHistory
+
+3. Activity Diagram (example: scheduling flow):
+- Start
+- User creates medicine
+- User adds schedule for medicine
+- System validates schedule
+- System stores schedule and registers reminder with scheduler
+- Scheduler triggers reminder at configured time
+- System sends notification to active clients / logs notification
+- User confirms intake -> System records intake in IntakeHistory
+- End
+
+4. State Diagram (example: Reminder lifecycle):
+States:
+- Scheduled -> Triggered -> Notified -> Confirmed/Skipped/Expired
+Transitions:
+- Scheduled to Triggered: when current time reaches scheduledTime
+- Triggered to Notified: after delivery attempt succeeds
+- Notified to Confirmed: user marks as taken
+- Notified to Skipped: user marks as skipped
+- Notified to Expired: no confirmation after a timeout
+
+5. Diagram annotations and notes:
+- Use Case diagrams show interactions between actors and system features; implement with clear actor boundaries.
+- Class diagrams align with database tables; attributes map to columns and associations map to foreign keys.
+- Activity diagrams document critical workflows (e.g., first-time setup, scheduling, intake confirmation).
+- State diagrams are essential for understanding lifecycle of scheduled events and ensuring proper reconciliation logic.
+
+6. Implementation correlation:
+- The class diagram maps directly to Java entities in the backend under `model` and JPA repositories under `repository`.
+- The activity flow is implemented by a combination of APIs (controllers) and a scheduler service.
+- State transitions are enforced by status fields and scheduled reconciliation jobs in the service layer.
+
+7. Tool suggestions for diagrams:
+- Use draw.io, Lucidchart, or PlantUML for generating the diagrams for printing in your submission.
+- PlantUML text can be added to the appendix for reproducibility.
+
+8. Sample PlantUML snippets (brief):
+- Use Case example and class skeletons can be generated using PlantUML; include them in your submission if desired.
+
+9. Conclusion:
+This document provides textual descriptions of the UML artifacts to include in the printed report. For the actual submission, include diagram images exported from a diagram tool and reference these descriptions.
+
+(End of UML Diagrams)

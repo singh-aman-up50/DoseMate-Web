@@ -1,0 +1,48 @@
+Introduction
+
+1. Overview:
+DoseMate is a medication management and reminder application designed to help users—particularly patients with chronic conditions, caregivers, and elderly individuals—manage their medication schedules effectively. The application provides features for registering medicines, scheduling reminders, tracking intakes, and maintaining a history of doses taken. It integrates a backend API with a frontend user interface to provide secure, reliable, and user-friendly medication management.
+
+2. Context and Motivation:
+Medication non-adherence is a common and serious problem leading to poor health outcomes, hospitalizations, and increased healthcare costs. Many patients miss doses due to forgetfulness, confusing schedules, or lack of caregiver supervision. DoseMate addresses these problems by automating reminders, simplifying medication schedules, and providing clear records of medicine intake for patients and caregivers.
+
+3. Key Features (high level):
+- User registration and secure login with authentication.
+- Medicine CRUD operations: add, edit, delete medicines and schedules.
+- Reminder scheduling with notifications for doses.
+- Intake logging to record doses taken and missed.
+- History and reporting for adherence tracking.
+- Profile management and optional chat or support widget for queries.
+
+4. Intended Users:
+- Patients who need help remembering medication times.
+- Caregivers monitoring multiple patients' medication schedules.
+- Healthcare providers who want a simplified adherence reporting tool.
+- Family members and guardians of elderly patients who require medication oversight.
+
+5. Benefits:
+- Improves medication adherence through timely reminders.
+- Reduces medication errors by centralizing schedules and details.
+- Provides traceable history for healthcare consultations.
+- Allows caregivers to monitor and support patients remotely.
+
+6. High-level Architecture:
+DoseMate uses a typical web application architecture: a React-based frontend served by Vite for a responsive single-page application, and a Java Spring Boot backend providing RESTful APIs and WebSocket support for real-time notifications. The backend persists data in a relational database and handles authentication and business logic.
+
+7. Deliverables in this documentation:
+This file introduces the project and is followed by dedicated sections covering project title, problem statement, objectives, system analysis, design artifacts (UML, DFD, ER), implementation details, testing, and final conclusions. Each topic is detailed in its own file for ease of printing and submission.
+
+8. Project significance statement:
+DoseMate is designed to reduce avoidable medication-related complications by combining clear scheduling, reliable reminders, and accurate intake logging. Its documentation provides both technical and user-facing perspectives to serve as a complete submission for academic evaluation.
+
+9. Glossary of terms used in this documentation:
+- Medication Schedule: A defined set of times and doses for a medicine.
+- Reminder: A notification sent at a scheduled time to take a dose.
+- Intake Log: A record (timestamped) that a dose was taken or missed.
+- CRUD: Create, Read, Update, Delete operations for data entities.
+- Adherence: Degree to which a user follows the prescribed medication regimen.
+
+10. Notes for the reader:
+This introduction sets the stage for a deeper technical explanation in the following files. Each file contains design rationale, diagrams, code snippets, test evidence, and a final summary to ensure the submission is thorough and easy to understand.
+
+(End of Introduction)

@@ -1,0 +1,41 @@
+Data Flow Diagram (DFD) Level 0 — Context Diagram
+
+1. Purpose:
+DFD Level 0 (context diagram) shows the system as a single process and its interaction with external entities such as Users and External Notification Services.
+
+2. External entities:
+- User: The primary actor interacting with the system through the frontend.
+- Caregiver: Optional actor who may access a user's history with permission.
+- Notification Provider: External service for push/SMS (optional integration).
+
+3. Single process:
+- Process 0: DoseMate System — handles user management, scheduling, reminders, intake logging, and reporting.
+
+4. Data flows:
+- From User to DoseMate: Registration details, medicine data, schedule configurations, intake confirmations.
+- From DoseMate to User: Reminder notifications, history views, profile updates.
+- From DoseMate to Notification Provider: Notification payloads (for external delivery) and delivery status reports back to DoseMate.
+
+5. Data stores (external to the Level 0 diagram but important to note):
+- Database: stores users, medicines, schedules, reminders, history.
+
+6. High-level description:
+- The context diagram illustrates that DoseMate mediates communication between the user and persistent storage, and optionally forwards notifications to external providers.
+
+7. Notation suggestions:
+- Process 0: circle or rounded rectangle labeled "DoseMate System".
+- Entities: rectangles for User, Caregiver, Notification Provider.
+- Data stores: labeled cylinder representing persistent database (shown on next levels).
+
+8. Key responsibilities captured:
+- User-facing operations (add/edit medicines, schedule, confirm intake)
+- Background operations (scheduling engine, notifications)
+- Data persistence and reporting
+
+9. Practical usage for documentation:
+- Include the Level 0 DFD image in your printed documentation and explain each arrow representing the data flows.
+
+10. Conclusion:
+The DFD Level 0 provides a clear, simple overview of how DoseMate interacts with outside entities and encapsulates the main system boundaries for further decomposition in Level 1 and beyond.
+
+(End of DFD Level 0)

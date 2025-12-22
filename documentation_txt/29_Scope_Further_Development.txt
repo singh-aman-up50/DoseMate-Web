@@ -1,0 +1,52 @@
+Scope for Further Development
+
+1. Overview:
+This section outlines concrete directions to evolve DoseMate from an academic prototype into a production-ready system with enhanced features, integrations, and operational robustness.
+
+2. Notification and delivery enhancements:
+- Full push notification support via Firebase Cloud Messaging (FCM) for Android and Web Push for browsers.
+- SMS gateway integration (Twilio or similar) for users without smartphone access.
+- Multi-channel notification preferences per user with delivery tracking and consolidation logic.
+
+3. Reliability and scalability improvements:
+- Move to a persistent job queue (RabbitMQ, Redis Streams, or Kafka) for durable scheduling and distributed worker processing.
+- Implement horizontal scaling for the backend (stateless services behind a load balancer) and dedicate workers for reminders.
+- Employ database read replicas and caching (Redis) for high-read workloads like history and reporting.
+
+4. Security, privacy, and compliance:
+- Implement role-based access control, strong authentication mechanisms (MFA), and fine-grained audit logging.
+- Conduct formal security testing and threat modeling; add encryption for sensitive fields and encrypted backups.
+- Plan for regulatory compliance (HIPAA/GDPR) if handling real patient data — include consent management and data minimization.
+
+5. Feature expansions:
+- Caregiver dashboards with role delegation and multi-patient views.
+- Medication reconciliation and barcode scanning to simplify medicine entry.
+- Support for prescription uploads and integration with pharmacy APIs.
+
+6. Analytics and personalization:
+- Adherence analytics with charts and trends; provide personalized suggestions to improve adherence.
+- Machine learning to predict missed doses and proactively prompt users or caregivers.
+
+7. Mobile and offline capabilities:
+- Native mobile apps (React Native, Flutter) for richer UX, background processing, and local reminders.
+- Offline-first architecture with local persistence and queued sync when connectivity returns.
+
+8. Integrations and interoperability:
+- FHIR-based API endpoints for interoperability with EHR systems.
+- Export formats for clinicians (CSV, PDF) and integrations with telehealth platforms.
+
+9. Developer experience and automation:
+- CI/CD pipelines for automated testing, building, containerization, and deployment.
+- Infrastructure-as-Code (Terraform) for reproducible cloud setups.
+- Comprehensive monitoring with metrics, logs, and alerts integrated with Grafana/Prometheus.
+
+10. Implementation roadmap (phased):
+- Phase 1: Add push notifications and SMS support; persistent queue for scheduling.
+- Phase 2: Implement caregiver features, role management, and improved audit logging.
+- Phase 3: Mobile apps, offline sync, and analytics dashboards.
+- Phase 4: Interoperability with EHRs and production compliance hardening.
+
+11. Concluding note:
+The scope for further development highlights realistic and prioritized steps to make DoseMate widely usable and reliable in production contexts. For an academic project, selecting a subset of these extensions can form the basis for future work or thesis projects.
+
+(End of Scope for Further Development)

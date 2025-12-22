@@ -1,0 +1,49 @@
+Types of Testing Performed
+
+1. Unit Testing:
+- Purpose: Validate individual units of code (functions, methods) in isolation.
+- Examples: Scheduler computation methods, input validation functions, repository utility methods.
+- Tools: JUnit for backend, Jest/React Testing Library for frontend components.
+
+2. Integration Testing:
+- Purpose: Verify interactions between components and subsystems (e.g., controller-service-repository stack).
+- Examples: Tests that ensure a medicine creation results in a persisted schedule and a created next-run entry.
+- Tools: Spring Boot Test for backend integration, Postman collections for endpoint flows.
+
+3. End-to-End (E2E) Testing:
+- Purpose: Simulate real user flows across the entire stack, from UI to backend and database.
+- Examples: Register -> Add medicine -> Wait for reminder -> Confirm intake -> View history.
+- Tools: Cypress or Selenium for UI automation, or manual step-by-step evidence for academic submission.
+
+4. Load and Performance Testing:
+- Purpose: Evaluate system behaviour under simulated loads and identify performance bottlenecks.
+- Examples: Simulate many scheduled reminders triggering around the same time.
+- Tools: JMeter or k6 for lightweight load tests; optional for academic projects but documented if performed.
+
+5. Security Testing:
+- Purpose: Ensure that authentication, authorization, and data protection controls are functioning.
+- Examples: Verify protected endpoints reject unauthenticated requests; test JWT expiry and refresh logic.
+- Tools: Manual tests, curl, and automated scripts for vulnerability scanning when possible.
+
+6. Usability Testing:
+- Purpose: Check if the UI is intuitive and accessible, especially for elderly users.
+- Examples: Observe a small set of users performing common tasks and collect feedback.
+- Outcome: UI adjustments (button sizes, label clarity) based on observed issues.
+
+7. Regression Testing:
+- Purpose: Ensure recent changes do not break existing functionality.
+- Examples: Rerun unit and integration tests after implementing scheduler fixes.
+- Tools: Automated test suites run via Maven or CI pipelines.
+
+8. Acceptance Testing:
+- Purpose: Validate that the system meets the acceptance criteria from requirements analysis.
+- Examples: End-to-end acceptance tests mapping to each major user story.
+
+9. Test Documentation and Reporting:
+- Keep test cases and expected outcomes in a centralized document for reviewer verification.
+- Include test run logs, screenshots, and reports in the appendices of the printed submission.
+
+10. Conclusion:
+A combination of unit, integration, and manual end-to-end testing assures that DoseMate meets functional requirements for an academic demonstration. Additional load and security testing are suggested for production-level deployments.
+
+(End of Types of Testing Performed)

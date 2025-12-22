@@ -1,0 +1,102 @@
+Sample Input and Output
+
+1. Purpose:
+Provide representative sample inputs (user interactions) and the expected outputs from the system for illustration and testing. These examples aid graders in verifying functionality and understanding typical workflows.
+
+2. Example 1: User Registration
+Input (HTTP POST /api/auth/register):
+{
+  "name": "Amit Sharma",
+  "email": "amit@example.com",
+  "password": "StrongPass123"
+}
+
+Expected Output (201 Created):
+{
+  "id": "user-uuid-123",
+  "name": "Amit Sharma",
+  "email": "amit@example.com",
+  "createdAt": "2025-12-01T10:00:00Z"
+}
+
+3. Example 2: Add Medicine with Daily Schedule
+Input (HTTP POST /api/medicines):
+{
+  "name": "Paracetamol",
+  "dosage": 500,
+  "unit": "mg",
+  "instructions": "Take after food",
+  "schedule": { "type": "daily", "timeOfDay": "08:00" }
+}
+
+Expected Output (201 Created):
+{
+  "medicineId": "med-uuid-456",
+  "name": "Paracetamol",
+  "dosage": 500,
+  "unit": "mg",
+  "nextRun": "2025-12-22T08:00:00+05:30"
+}
+
+4. Example 3: Reminder Trigger and In-app Notification
+Event: Scheduler triggers reminder at scheduled time.
+System Output (WebSocket message to client):
+{
+  "type": "REMINDER",
+  "reminderId": "rmd-uuid-789",
+  "text": "Time to take Paracetamol 500 mg",
+  "scheduledTime": "2025-12-22T08:00:00+05:30"
+}
+
+Client action (user confirms taken):
+POST /api/reminders/rmd-uuid-789/confirm
+{
+  "status": "TAKEN",
+  "note": "Taken with water"
+}
+
+Expected Output (200 OK):
+{
+  "intakeId": "intake-uuid-321",
+  "reminderId": "rmd-uuid-789",
+  "status": "TAKEN",
+  "timestamp": "2025-12-22T08:01:02+05:30"
+}
+
+5. Example 4: View History
+Input (GET /api/history?start=2025-12-01&end=2025-12-22)
+Expected Output (200 OK):
+[
+  { "intakeId": "intake-uuid-321", "medicine": "Paracetamol", "status": "TAKEN", "timestamp": "2025-12-22T08:01:02+05:30" },
+  { "intakeId": "intake-uuid-322", "medicine": "Multivitamin", "status": "MISSED", "timestamp": "2025-12-21T09:00:00+05:30" }
+]
+
+6. Example 5: Error Case — Invalid Schedule Time
+Input: POST /api/medicines with schedule time "25:00"
+Expected Output (400 Bad Request):
+{
+  "error": "Invalid schedule time: 25:00. Time must be in the format HH:mm and within 00:00–23:59."
+}
+
+7. Example 6: Notification Log Entry
+Database entry in NotificationLog after an attempted delivery:
+{
+  "logId": "log-uuid-654",
+  "reminderId": "rmd-uuid-789",
+  "deliveryTime": "2025-12-22T08:00:05+05:30",
+  "channel": "WEBSOCKET",
+  "status": "DELIVERED"
+}
+
+8. UI Output examples:
+- Dashboard displays next reminders with a confirmation button and time.
+- History page shows a table with pagination and filters for date range and medicine name.
+
+9. Notes for graders and testers:
+- The sample inputs correspond to the API contracts described in `dto` files under backend.
+- Timestamps are shown with timezone offsets to emphasize correct timezone handling.
+
+10. Conclusion:
+These sample inputs and outputs illustrate the expected behavior of DoseMate for typical workflows, edge cases, and error conditions. Use them to validate both API endpoints and UI behavior during testing and evaluation.
+
+(End of Sample Input and Output)

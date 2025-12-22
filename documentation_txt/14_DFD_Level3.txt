@@ -1,0 +1,42 @@
+Data Flow Diagram (DFD) Level 3 — Exceptional Flows and Notification Delivery
+
+1. Purpose:
+DFD Level 3 examines edge cases and the notification delivery pipeline in depth, including retries, fallback channels, and escalations.
+
+2. Detailed notification pipeline processes:
+- P3.4.1: Format Notification Payload (creates user-friendly messages)
+- P3.4.2: Deliver via WebSocket (for active sessions)
+- P3.4.3: Deliver via Push/SMS Adapter (external services)
+- P3.4.4: Log Delivery Attempt (writes to NotificationLog)
+- P3.4.5: Schedule Retry or Escalation (on persistent failure)
+
+3. Error and fallback flows:
+- If WebSocket delivery fails (user offline), P3.4.2 returns control to P3.4.1 which then routes to P3.4.3 for external delivery, if available.
+- P3.4.4 captures delivery response and status codes which are used by P3.4.5 to decide on retries.
+- P3.4.5 may escalate repeated failures to caregivers or administrators depending on business rules.
+
+4. Audit and monitoring flows:
+- NotificationLog (D5) stores all delivery attempts, statuses, and timestamps.
+- A monitoring process queries D5 to produce operational reports and alert developers on abnormal failure rates.
+
+5. Interaction with Reconciliation and History:
+- If a user confirms intake after an external delivery, the IntakeHistory (D4) is updated and reconciliation marks the reminder as resolved.
+- Late confirmations are correlated with original Reminder entries using unique identifiers.
+
+6. Security and privacy in delivery:
+- Notification payloads must avoid sensitive health details if being sent to unsecured channels; ensure policy for message content minimization.
+
+7. Practical considerations for project scope:
+- For an MVP, implement WebSocket or in-app notifications and log delivery attempts; describe external delivery as an optional extension with example adapters.
+
+8. Testing and simulation:
+- Simulate offline users by closing WebSocket sessions and test external delivery path (mock adapters).
+- Test retries and escalation using controlled failure injections.
+
+9. Diagramming tip:
+- DFD Level 3 is dense; in the printed report, include a clear key and split sub-processes across labeled sections to maintain readability.
+
+10. Conclusion:
+This Level 3 DFD ensures the system handles real-world reliability challenges: offline users, transient failures, retries, and escalation. Documenting these flows strengthens the project by demonstrating attention to operational robustness.
+
+(End of DFD Level 3)

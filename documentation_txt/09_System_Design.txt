@@ -1,0 +1,58 @@
+System Design
+
+1. Design goals:
+The system design aims to produce a modular, maintainable architecture that separates concerns: presentation, business logic, persistence, and notification services. The design must ensure security, scalability, and ease of testing.
+
+2. Architectural overview:
+- Presentation layer: React SPA served by Vite for fast development and client-side routing.
+- API layer: Spring Boot REST controllers handling user requests and enforcing security.
+- Service layer: Business logic for scheduling, reminder triggering, and history management.
+- Persistence layer: Relational database with entities: User, Medicine, Schedule, IntakeHistory, NotificationLog.
+- Notification layer: Abstraction for sending reminders (in-app, WebSocket, optional push/SMS adapters).
+
+3. Component interactions:
+- Frontend sends authenticated API calls to backend to manage medicines and schedules.
+- Backend scheduling component enqueues tasks or uses a scheduler to trigger reminders.
+- On trigger, backend logs notification and uses WebSocket to inform active client sessions; fallback to persisted notifications for offline users.
+
+4. Data flow:
+- Data originates from user actions in the UI (create medicine, confirm intake).
+- Backend validates and stores these actions, updates schedules, and logs history.
+- Reporting endpoints aggregate history for display in the UI.
+
+5. Design patterns used:
+- Model-View-Controller (MVC) in backend: Controllers, Services, Repositories.
+- Repository pattern for data access using Spring Data JPA.
+- DTOs (Data Transfer Objects) to decouple API contracts from internal domain models.
+- Observer pattern for notification delivery via WebSocket listeners.
+
+6. Error handling and resilience:
+- Centralized exception handling for REST APIs to ensure consistent error responses.
+- Retry mechanisms for transient failures in notification adapters.
+- Transaction boundaries where atomic operations are required (e.g., scheduling + history logging).
+
+7. Security design:
+- JWT or session-based authentication for APIs.
+- Role checks for caregiver features.
+- Sensitive fields never returned in API responses unless necessary.
+
+8. Extensibility:
+- Adapter interfaces for adding new notification providers.
+- Versioned API endpoints to support future mobile apps.
+
+9. Diagram references:
+- UML diagrams (Use Case, Class, Activity, State) are provided in a separate file describing actors, classes, and state transitions.
+- DFD artifacts show high-level processes and data stores across multiple levels.
+
+10. Non-functional design considerations:
+- Use pagination and indexing for history queries to maintain performance.
+- Design for multi-region deployment by externalizing configuration and using environment variables.
+
+11. Implementation mapping:
+- Map services to Java packages in the backend: controller, service, repository, model, dto, websocket.
+- Frontend components grouped logically: pages, components, api wrappers, context providers.
+
+12. Summary:
+The system design ensures a clear separation of concerns and supports reliable reminder delivery, secure data handling, and a responsive user interface. Detailed diagrams and database schemas in subsequent files elaborate on this design.
+
+(End of System Design)

@@ -1,0 +1,49 @@
+Feasibility Study
+
+1. Purpose of feasibility study:
+To evaluate whether DoseMate can be implemented within the project constraints (time, resources, technical skills) and to choose the best approach for development, deployment, and scaling.
+
+2. Types of feasibility considered:
+- Technical Feasibility
+- Operational Feasibility
+- Economic Feasibility
+- Schedule/Time Feasibility
+- Legal and Ethical Feasibility
+
+3. Technical feasibility:
+- Tools and technologies available: React for frontend, Spring Boot (Java) for backend, and a relational database (e.g., H2 for development, PostgreSQL or MySQL for production).
+- Team skills: Familiarity with Java, Spring Boot, JavaScript/React, and basic SQL are sufficient.
+- Existing codebase: Project repository shows both frontend and backend scaffolding, reducing implementation overhead.
+
+4. Operational feasibility:
+- Users can access via web browsers; no special hardware required.
+- Day-to-day operation requires a hosting environment (cloud VM or local server) and a database service.
+- Maintenance complexity is moderate, manageable for a student project with documented procedures.
+
+5. Economic feasibility:
+- Development costs: Minimal if using existing free-tier services for hosting/testing.
+- Recurring costs: Optional external services (SMS, push notifications) may incur recurring fees.
+- For academic submission, costs are low since minimal infrastructure is needed for demonstration.
+
+6. Schedule feasibility:
+- The project is feasible within a typical semester timeline given the current codebase scaffolding.
+- Prioritize core features (auth, medicine CRUD, scheduling, intake logging) for the initial deliverable.
+
+7. Legal and ethical feasibility:
+- Collecting personal health information requires attention to privacy; for demonstration, data should be minimized and stored securely.
+- For any real-world deployment, compliance with local laws (e.g., GDPR, HIPAA) must be considered; this is outside the scope of the current project but documented as future work.
+
+8. Risk assessment and mitigation:
+- Risk: Reminder reliability — mitigate with persistent scheduling and periodic reconciliation.
+- Risk: User data privacy — mitigate with hashed passwords, TLS, and minimal data retention.
+- Risk: Time overruns — mitigate by scoping MVP features and using existing library components.
+
+9. Feasibility conclusion:
+DoseMate is technically and operationally feasible with low economic cost for an academic project. The existing codebase provides a strong starting point, and focusing on core functionality ensures deliverability within the available timeframe.
+
+10. Recommendations:
+- Use an in-memory database for local development (H2) and a standard RDBMS for final testing.
+- Implement core features first, then integrate optional notification gateways as time allows.
+- Document deployment steps and data handling policies in the final submission.
+
+(End of Feasibility Study)

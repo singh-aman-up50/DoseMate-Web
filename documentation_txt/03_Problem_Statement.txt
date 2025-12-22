@@ -1,0 +1,46 @@
+Problem Statement
+
+1. Background:
+Medication non-adherence is a significant public health issue. Patients with chronic illnesses, busy schedules, cognitive impairments, or complex polypharmacy regimens are at increased risk of missing doses, taking incorrect amounts, or taking medications at wrong times. These errors can lead to therapeutic failure, adverse drug events, hospital readmissions, and increased healthcare costs.
+
+2. Core problem:
+Users often forget or mismanage their medication schedules due to forgetfulness, multiple medications with different timings, lack of clear records, or absence of caregiver oversight. There is a need for a reliable, easy-to-use system that reminds users, logs intake events, and allows caregivers to monitor adherence.
+
+3. Specific issues addressed:
+- Missed doses due to forgetfulness.
+- Incorrect dosing schedules due to confusing instructions.
+- No accessible history or audit trail for adherence reporting.
+- Lack of caregiver oversight for elderly or dependent patients.
+- Difficulty in tracking side effects or dosing adjustments over time.
+
+4. Technical problem statement:
+Design and implement a web-based application that provides secure user authentication, an intuitive interface to register medicines and schedules, automated reminders at scheduled times, a reliable intake logging mechanism, and a history/reporting module. The system should be robust, scalable for multiple users, and maintainable for future extensions.
+
+5. Constraints and requirements influencing the problem:
+- Users may run the application on mobile or desktop browsers, so the UI must be responsive.
+- Data must be stored persistently and securely, with proper handling of sensitive personal health information.
+- Reminders must be reliable and preferably support both in-app and external delivery (push/SMS) as future options.
+- System should accommodate multiple dosing patterns (daily, specific days, PRN, intervals).
+
+6. Scope limitations for the academic project:
+- This project focuses on core reminder and logging functionalities, not on integration with pharmacy systems or automatic prescriptions.
+- Push notifications through external services (e.g., Firebase Cloud Messaging) may be described and optionally integrated if feasible but are not mandatory for the minimum viable product.
+
+7. Measurable goals for success:
+- Ability to create medicines and schedules for a user successfully.
+- System triggers reminders at scheduled times and marks events when users confirm intake.
+- The application records and displays adherence history accurately.
+- Basic authentication and profile management are implemented securely.
+
+8. Stakeholders:
+- Primary: Patients using the app for medication adherence.
+- Secondary: Caregivers or family members who monitor schedules.
+- Tertiary: Academic evaluators reviewing the project implementation and documentation.
+
+9. Why existing solutions may be insufficient:
+Many existing solutions are fragmented, require complex setup, or charge for premium reminder features. For an academic project, a simple, extensible, and well-documented solution built end-to-end demonstrates design and development skills while delivering a usable product.
+
+10. Conclusion of the problem statement:
+There is a clear need for an accessible medication reminder and logging system that reduces missed doses and provides a clear history for users and caregivers. DoseMate aims to address this need by offering a secure, user-friendly web application with core features for scheduling, reminders, intake logging, and reporting.
+
+(End of Problem Statement)

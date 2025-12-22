@@ -1,0 +1,54 @@
+Data Flow Diagram (DFD) Level 1 — High-level Processes
+
+1. Purpose:
+DFD Level 1 decomposes the main DoseMate system into major sub-processes and shows how data moves between them, data stores, and external entities.
+
+2. Major processes:
+- P1: User Management
+- P2: Medicine & Schedule Management
+- P3: Reminder Engine
+- P4: Intake Logging & History
+- P5: Reporting & Export
+
+3. Data stores:
+- D1: Users
+- D2: Medicines
+- D3: Schedules
+- D4: IntakeHistory
+- D5: NotificationLog
+
+4. External entities and flows:
+- User -> P1: Registration/Login requests
+- User -> P2: Create/Edit/Delete medicine and schedule data
+- P3 -> User: Triggered reminders
+- P3 -> Notification Provider: External delivery requests
+- User -> P4: Confirm intake actions
+- User/Caregiver -> P5: Request history/report
+
+5. Data flow summary:
+- User Management (P1) reads/writes D1.
+- Medicine & Schedule Management (P2) reads/writes D2 and D3.
+- Reminder Engine (P3) reads D3 and writes D5 when sending reminders; it also creates Reminder instances.
+- Intake Logging (P4) writes to D4 when users confirm intake; P4 may update D5 with delivery acknowledgement.
+- Reporting (P5) reads D4 and D2 to produce aggregated reports.
+
+6. Control and timing:
+- P3 operates on scheduled times and runs asynchronously.
+- P4 updates are event-driven, typically triggered by user actions.
+
+7. Error and exception flows:
+- On failed notification delivery, P3 writes failure details to D5 for later reconciliation.
+- If schedule validation fails in P2, an error response flows back to the user.
+
+8. Security boundary:
+- All processes require authentication tokens validated by P1 or a middleware service.
+- Data access is controlled by user id and access rights for caregivers.
+
+9. Practical documentation advice:
+- Include an image of DFD Level 1 in the printed documentation showing processes P1–P5, their data stores, and data flows.
+- For each arrow, include a short description in the caption explaining its content (e.g., "Schedule config" or "Intake confirmation event").
+
+10. Conclusion:
+DFD Level 1 gives a functional breakdown of DoseMate's core processes and shows explicit data exchange among them, forming a blueprint for the implementation phase.
+
+(End of DFD Level 1)

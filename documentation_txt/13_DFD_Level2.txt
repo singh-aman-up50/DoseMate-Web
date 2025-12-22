@@ -1,0 +1,47 @@
+Data Flow Diagram (DFD) Level 2 — Detailed Reminder Engine and Intake Flow
+
+1. Purpose:
+DFD Level 2 drills into the Reminder Engine (P3) and Intake Logging (P4) to show more detailed data flows and sub-processes responsible for scheduling, triggering, notifying, and logging.
+
+2. Sub-processes of the Reminder Engine:
+- P3.1: Schedule Parser (interprets schedule rules)
+- P3.2: Job Scheduler (registers jobs with timing engine)
+- P3.3: Trigger Dispatcher (activates reminders when due)
+- P3.4: Notification Sender (sends notification via WebSocket/external providers)
+
+3. Sub-processes of Intake Logging:
+- P4.1: Intake Validator (validates user confirmation or skip)
+- P4.2: History Recorder (writes to IntakeHistory store)
+- P4.3: Reconciliation Service (reconciles missed reminders with user confirmations)
+
+4. Data stores involved:
+- D3: Schedules
+- D4: IntakeHistory
+- D5: NotificationLog
+
+5. Flows and interactions (examples):
+- P3.1 reads schedule rules from D3 and produces concrete trigger times to P3.2.
+- P3.2 registers triggers with an in-memory or persistent job scheduler.
+- When due, the scheduler calls P3.3 which creates a Reminder record and forwards the event to P3.4.
+- P3.4 attempts to send notification; delivery attempts and statuses are logged to D5.
+- Upon user action, P4.1 validates the input and passes it to P4.2 to record in D4.
+- P4.3 runs periodically to find reminders that were triggered but not confirmed and marks them as missed or escalates to caregivers if configured.
+
+6. Error and retry handling:
+- Notification Sender (P3.4) retries transient failures and writes persistent errors to D5 for manual inspection or scheduled retries.
+- Reconciliation Service ensures eventual consistency by reconciling late confirmations against outstanding reminders.
+
+7. Timezone and timekeeping:
+- All trigger times are computed with user timezone context; D3 stores timezone offsets where necessary.
+- Jobs record scheduledTime and actual triggerTime for auditing.
+
+8. Operational notes:
+- Use persistent job storage or a durable queue if long-term reliability is required; for an academic project, an in-memory scheduler with database reconciliation can be sufficient.
+
+9. Diagram and documentation guidance:
+- In your printed report, include a Level 2 DFD image for the Reminder Engine with labelled subprocesses and flows. Add explanatory captions describing each arrow.
+
+10. Conclusion:
+DFD Level 2 explains the internal mechanics of how DoseMate schedules and delivers reminders, and how it records and reconciles user confirmations. This detailed analysis supports building robust reminder and history tracking services in the implementation phase.
+
+(End of DFD Level 2)

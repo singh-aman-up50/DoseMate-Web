@@ -1,0 +1,56 @@
+Final Output
+
+1. Purpose of this section:
+This section presents the final observable outputs of the DoseMate system after full implementation and testing. It highlights the user-facing results, backend logs, and example data that reviewers can verify when running the system locally.
+
+2. User-facing outputs:
+- Dashboard: Shows upcoming reminders, adherence summary, and quick action buttons for confirming intake.
+- Reminder notifications: In-app popups or WebSocket-driven messages displaying medicine name, dose, and action buttons.
+- Medicine management pages: Lists of medicines with details such as dosage, schedule, and next-run time.
+- History page: A chronological list of intake events (TAKEN/MISSED/SKIPPED) with timestamps and notes.
+
+3. Example UI screenshots (to include in printed report):
+- Dashboard showing next reminders and confirmation buttons.
+- Add/Edit Medicine form with schedule picker open.
+- History table filtered by date range with an export button.
+
+4. Backend outputs and logs:
+- Scheduler logs showing triggered reminders with timestamps and reminder IDs.
+- Notification logs listing delivery attempts, channels, and statuses.
+- Intake logs showing recorded intake events with timestamp, user id, and status.
+
+5. Sample log excerpt:
+2025-12-22T08:00:00.123Z INFO SchedulerService - Triggering reminder rmd-uuid-789 for user user-uuid-123
+2025-12-22T08:00:00.456Z INFO NotificationSender - Delivered reminder rmd-uuid-789 via WEBSOCKET
+2025-12-22T08:01:02.789Z INFO IntakeService - Recorded intake intake-uuid-321 for reminder rmd-uuid-789
+
+6. Database output examples:
+- A `Reminders` row with `status=TRIGGERED`, `scheduled_time=2025-12-22T08:00:00+05:30`, `triggered_at=2025-12-22T08:00:00.123Z`.
+- A corresponding `IntakeHistory` row with `status=TAKEN` and a timestamp of the user's confirmation.
+- `NotificationLog` entries showing delivery attempts and responses.
+
+7. API outputs (representative):
+- Create medicine (201 Created) returns medicine id and `nextRun` timestamp.
+- Confirm intake (200 OK) returns the created intake entry with an `intakeId`.
+- Get history (200 OK) returns a paginated list of intake records.
+
+8. Acceptance criteria verification:
+- All primary user flows produce the expected outputs as demonstrated in the sample input/output file.
+- Scheduler produces logs for each triggered reminder and notification delivery attempts are recorded.
+- The history lists reflect user confirmations accurately and are filterable by date range.
+
+9. Export and reporting output:
+- Simple CSV export of history where each row contains: timestamp, medicine name, dose, status, note.
+- Summary report showing adherence percentage (taken / scheduled) for a selected period.
+
+10. Packaging final output for submission:
+- Include sample screenshots, surefire test reports, and a database dump (or generated sample data) with the project submission so evaluators can reproduce outputs.
+
+11. Troubleshooting tips for reviewers:
+- If reminders do not appear, ensure the scheduler is running and `Schedules.next_run` is populated in the database.
+- Check WebSocket connectivity in the browser console and verify backend logs for notification delivery.
+
+12. Conclusion:
+The final output of DoseMate demonstrates a working medication reminder system with clear UI outputs, reliable backend logging, and persistent history records. These outputs collectively satisfy the functional and non-functional requirements specified earlier in the documentation.
+
+(End of Final Output)

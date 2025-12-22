@@ -1,0 +1,58 @@
+Database Design
+
+1. Objectives of the database design:
+- Persist core domain entities (users, medicines, schedules, reminders, history) reliably.
+- Support queries required by the scheduling engine and reporting features.
+- Maintain data integrity with appropriate constraints and indices.
+
+2. Choice of database:
+- Development: H2 (in-memory) or SQLite for quick setup and tests.
+- Production/Testing: PostgreSQL or MySQL for durability and scaling.
+
+3. Entity mapping and schema overview:
+- Users table: stores user account details and timezone information for schedule computations.
+- Medicines table: stores medicine metadata and links to schedules.
+- Schedules table: stores recurrence patterns and next-run times for efficient scheduling.
+- Reminders table: stores individual reminder instances with scheduled and triggered timestamps.
+- IntakeHistory table: stores user confirmations for each reminder.
+- NotificationLog table: stores delivery attempts and statuses.
+
+4. Column design examples (high-level):
+- Users(id UUID PK, name TEXT, email TEXT UNIQUE, password_hash TEXT, timezone TEXT, created_at TIMESTAMP)
+- Medicines(id UUID PK, user_id UUID FK, name TEXT, dosage DECIMAL, unit TEXT, instructions TEXT, start_date DATE, end_date DATE)
+- Schedules(id UUID PK, medicine_id UUID FK, recurrence_type TEXT, time_of_day TIME, interval_minutes INT, days_of_week TEXT, next_run TIMESTAMP)
+- Reminders(id UUID PK, schedule_id UUID FK, scheduled_time TIMESTAMP, triggered_at TIMESTAMP NULL, status TEXT)
+- IntakeHistory(id UUID PK, reminder_id UUID FK, user_id UUID FK, timestamp TIMESTAMP, status TEXT, note TEXT)
+- NotificationLog(id UUID PK, reminder_id UUID FK, attempted_at TIMESTAMP, channel TEXT, status TEXT, response TEXT)
+
+5. Indexing and performance strategies:
+- Index `Schedules.next_run` for quick selection of due reminders.
+- Index `IntakeHistory(user_id, timestamp)` for efficient history queries and filtering.
+- Use proper foreign keys and cascade rules where appropriate (e.g., delete user -> cascade medicines and schedules), but consider soft-delete for auditability.
+
+6. Transactions and concurrency:
+- Use transactions when performing multi-step operations that must be atomic (e.g., creating schedule and registering a job).
+- Handle concurrency on schedule updates by optimistic locking or by checking `next_run` before committing changes.
+
+7. Backup and migration strategy:
+- Use migration tools such as Flyway or Liquibase to manage schema changes across environments.
+- Regular backups recommended for production data stores; for academic submission, document backup strategy rather than implement full automation.
+
+8. Data validation and constraints:
+- Enforce non-null constraints for required fields and add CHECK constraints for numeric ranges (e.g., dosage > 0).
+- Use unique constraints for user email to prevent duplicate accounts.
+
+9. Security considerations:
+- Encrypt database backups.
+- Restrict database access to application credentials with limited permissions.
+- Avoid storing plain-text sensitive data; hide or tokenize sensitive fields if necessary.
+
+10. Example queries used by the system:
+- Fetch next due reminders: SELECT * FROM Schedules WHERE next_run <= now();
+- Insert reminder and log notification: transactionally insert into Reminders and NotificationLog.
+- Fetch user history: SELECT * FROM IntakeHistory WHERE user_id = ? ORDER BY timestamp DESC LIMIT ? OFFSET ?;
+
+11. Conclusion:
+The database design balances normalization, query performance, and maintainability. The schema supports reliable reminder scheduling and detailed intake history necessary for reporting and reconciliation.
+
+(End of Database Design)

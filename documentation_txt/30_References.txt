@@ -1,0 +1,55 @@
+References
+
+1. Academic and technical references:
+- Gamma E., Helm R., Johnson R., Vlissides J. (1994). Design Patterns: Elements of Reusable Object-Oriented Software. Addison-Wesley.
+- Fowler M. (2002). Patterns of Enterprise Application Architecture. Addison-Wesley.
+- Fielding R. T. (2000). Architectural Styles and the Design of Network-based Software Architectures (Ph.D. dissertation) — REST architectural style.
+
+2. Framework and library documentation:
+- React: https://reactjs.org/docs/getting-started.html
+- Vite: https://vitejs.dev/guide/
+- Spring Boot: https://spring.io/projects/spring-boot
+- Spring Data JPA: https://spring.io/projects/spring-data-jpa
+- Tailwind CSS: https://tailwindcss.com/docs
+
+3. Scheduling and time libraries:
+- Java Time (JSR-310): https://docs.oracle.com/javase/8/docs/api/java/time/package-summary.html
+- cron-utils: https://github.com/jmrozanec/cron-utils
+- Timezone handling reference: https://www.iana.org/time-zones
+
+4. Security references:
+- OWASP Top Ten: https://owasp.org/www-project-top-ten/
+- JWT: https://jwt.io/introduction/
+
+5. Data modeling and ER design references:
+- Database normalization: https://en.wikipedia.org/wiki/Database_normalization
+- Flyway (DB migrations): https://flywaydb.org/documentation/
+
+6. User interface and accessibility:
+- Web Content Accessibility Guidelines (WCAG): https://www.w3.org/WAI/standards-guidelines/wcag/
+- React Accessibility: https://reactjs.org/docs/accessibility.html
+
+7. Testing resources:
+- JUnit 5 User Guide: https://junit.org/junit5/docs/current/user-guide/
+- React Testing Library: https://testing-library.com/docs/react-testing-library/intro/
+- Cypress: https://www.cypress.io/
+
+8. Notification services and gateways:
+- Firebase Cloud Messaging (FCM): https://firebase.google.com/docs/cloud-messaging
+- Twilio SMS API: https://www.twilio.com/docs/sms
+
+9. Additional reading on digital health and adherence:
+- Jimmy B., Jose J. (2011). Patient medication adherence: measures in daily practice. Integr Pharm Res Pract.
+- World Health Organization. Adherence to Long-Term Therapies: Evidence for Action. (2003)
+
+10. Project-specific references (repository files):
+- Backend controllers and DTOs: backend/src/main/java/com/dosemate/controller and backend/src/main/java/com/dosemate/dto
+- Frontend components and API wrappers: frontend/src/components and frontend/src/api
+
+11. How to cite this project:
+- For academic use, cite the project by its title and include the repository URL and relevant authors/contributors.
+
+12. Notes:
+- When using third-party services for production, consult their documentation for pricing, quotas, and privacy rules.
+
+(End of References)

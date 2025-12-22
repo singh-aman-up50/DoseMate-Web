@@ -1,0 +1,43 @@
+System Analysis
+
+1. Purpose of System Analysis:
+System analysis studies the existing processes, defines system requirements, uncovers constraints, and specifies the functional and non-functional needs of DoseMate. It ensures that the system design aligns with stakeholder goals and technical feasibility.
+
+2. Stakeholder analysis:
+- Primary stakeholders: patients, caregivers, and family members.
+- Secondary stakeholders: healthcare providers and pharmacists.
+- Project stakeholders: students, instructors, and evaluators.
+
+3. Current process and problems:
+In many real-world settings, medication management relies on memory, written notes, or manual pill boxes. These approaches lack automation, audit trails, and reliable reminders. System analysis identifies root causes of missed doses and maps how a software solution can intervene effectively.
+
+4. Functional decomposition:
+Key functions include user management, medicine management, scheduling and reminder engine, intake logging, history/reporting, and notification delivery. Each function is further decomposed into subfunctions such as create medicine, set schedule, trigger reminder, confirm intake, and generate report.
+
+5. Data requirements:
+Important data entities: User Profile, Medicine, Schedule, Reminder, Intake History, and Notification Log. Relationships among these entities are defined during analysis to support later ER modeling and database design.
+
+6. Interface requirements:
+Users require an intuitive UI that works on mobile and desktop browsers. The system must provide forms for entering medicine details, calendars for schedules, and clear buttons for confirming intake. API endpoints are required for frontend-backend communication.
+
+7. Performance requirements:
+The system should handle a reasonable number of concurrent users for a student project (tens to low hundreds). Response times for core API calls should be under a few hundred milliseconds in typical conditions.
+
+8. Security requirements:
+Authentication and authorization must be implemented to protect user data. Sensitive information should be stored securely and transmitted over TLS. Access control should prevent unauthorized viewing or editing of other users' medicines.
+
+9. Operational workflows:
+Analysis defines workflows for registering a user, adding a medicine with a schedule, the reminder lifecycle (scheduled -> triggered -> confirmed), and history review. Each workflow includes success and failure paths (e.g., missed reminder handling).
+
+10. Non-functional considerations:
+Includes maintainability, scalability, usability, reliability, and portability. The system is designed to be modular and well-documented to ease future extension, such as adding push notifications, analytics dashboards, or multi-device sync.
+
+11. Assumptions and constraints:
+- Users have regular internet access for full functionality.
+- Notifications leveraging external services are optional in the baseline product.
+- The project is built for demonstrative and educational purposes, not full clinical deployment.
+
+12. Outcome of system analysis:
+A clear set of requirements, data models, and workflow diagrams which inform the system design and implementation phases. The analysis provides a trusted basis for implementation choices documented in later sections.
+
+(End of System Analysis)

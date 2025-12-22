@@ -1,0 +1,121 @@
+Code Snippets with Explanation
+
+1. Backend: Sample Controller endpoint (pseudo-example)
+// Purpose: Add a new medicine for the authenticated user
+
+Snippet (Java / Spring Boot style):
+
+@PostMapping("/medicines")
+public ResponseEntity<MedicineDTO> addMedicine(@RequestBody MedicineDTO dto, Principal principal) {
+    Long userId = getUserIdFromPrincipal(principal);
+    Medicine medicine = medicineService.createMedicine(userId, dto);
+    return ResponseEntity.status(HttpStatus.CREATED).body(convertToDto(medicine));
+}
+
+Explanation:
+- The controller receives a JSON payload `MedicineDTO` and uses the authenticated principal to determine the current user.
+- `medicineService.createMedicine` handles validation, persistence, and schedule registration.
+- The endpoint returns a 201 Created with the persisted medicine data.
+
+2. Backend: Scheduling logic (conceptual Java snippet)
+// Purpose: Compute next run time and persist schedule
+
+public LocalDateTime computeNextRun(Schedule schedule) {
+    // Example: if daily at a fixed time, compute next occurrence after now
+    LocalDateTime now = LocalDateTime.now(schedule.getTimezone());
+    LocalTime t = schedule.getTimeOfDay();
+    LocalDateTime candidate = LocalDateTime.of(now.toLocalDate(), t);
+    if (candidate.isBefore(now)) candidate = candidate.plusDays(1);
+    return candidate;
+}
+
+Explanation:
+- This method computes the next scheduled reminder time using the user's timezone and a simple daily pattern.
+- For more complex recurrence rules, use libraries like `cron-utils` or `ical4j`.
+
+3. Frontend: Axios instance setup (JavaScript)
+// Purpose: Create axios instance to attach auth token and base URL
+
+import axios from 'axios';
+
+const api = axios.create({ baseURL: process.env.API_BASE_URL || '/api' });
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem('authToken');
+  if (token) config.headers['Authorization'] = `Bearer ${token}`;
+  return config;
+});
+export default api;
+
+Explanation:
+- This centralized axios instance attaches an authorization header automatically for all requests.
+- The base URL can be configured via environment variables.
+
+4. Frontend: Example React hook to fetch medicines
+// Purpose: Retrieve user medicines and provide loading state
+
+export function useMedicines() {
+  const [medicines, setMedicines] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api.get('/medicines')
+      .then(res => setMedicines(res.data))
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { medicines, loading };
+}
+
+Explanation:
+- Standard pattern for fetching data in a React component with stateful loading indicator.
+
+5. Sample WebSocket client snippet (frontend)
+// Purpose: Receive real-time reminder notifications
+
+const ws = new WebSocket('ws://localhost:8080/ws');
+ws.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+  // message may contain reminder id and prompt text
+  showToast(message.text);
+};
+
+Explanation:
+- WebSocket opens a persistent connection to receive immediate reminders.
+- Messages are expected in JSON format and processed by the client to notify the user.
+
+6. Database access example (Spring Data JPA repository):
+public interface MedicineRepository extends JpaRepository<Medicine, UUID> {
+  List<Medicine> findByUserId(UUID userId);
+}
+
+Explanation:
+- Simple repository interface enabling CRUD operations and a custom finder to get medicines by user.
+
+7. Security snippet (Spring Security config concept):
+http
+  .csrf().disable()
+  .authorizeRequests()
+    .antMatchers("/api/auth/**").permitAll()
+    .anyRequest().authenticated()
+  .and()
+  .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+Explanation:
+- Stateless session policy recommended when using JWT tokens; only auth endpoints are open to anonymous users.
+
+8. Logging example (Java):
+private static final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
+logger.info("Triggering reminder {} for user {}", reminderId, userId);
+
+Explanation:
+- Use structured logging with parameterized messages for clarity in logs and to avoid expensive string concatenation when logs are disabled.
+
+9. Notes about code snippets:
+- These snippets are illustrative and should be adapted to the actual project package names and DTOs.
+- For full code listings, refer to the project files in the repository (`backend/src/main/java/...` and `frontend/src/...`).
+
+10. Conclusion:
+The above code snippets highlight key implementation points: secure API patterns, scheduling logic, frontend data fetching, and real-time notification handling. They are starting points for expansion and testing.
+
+(End of Code Snippets with Explanation)

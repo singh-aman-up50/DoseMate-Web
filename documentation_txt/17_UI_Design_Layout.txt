@@ -1,0 +1,60 @@
+UI Design / Layout
+
+1. Design objectives:
+- Provide a simple, accessible interface for entering medicines and schedules.
+- Minimize the number of clicks required to confirm intake.
+- Ensure readability with large fonts and clear contrast for elderly users.
+
+2. Key pages and components:
+- Login / Register: Simple forms for authentication with clear error messages.
+- Dashboard: Overview of today's medicines and next reminders; quick actions to confirm intake.
+- Medicine List: Table or card view showing all medicines with edit/delete options.
+- Add/Edit Medicine: Form to input name, dosage, instructions, and schedule.
+- Reminders Page: Calendar or timeline view of upcoming reminders.
+- History Page: Filterable list of intake events with export options.
+- Profile Page: Manage personal details and timezone settings.
+
+3. Layout principles:
+- Responsive grid to adapt to mobile and desktop screens.
+- Primary actions (Confirm Intake, Snooze) are prominent and color-coded.
+- Secondary actions (Edit, Delete) are accessible but less visually dominant.
+
+4. Accessibility considerations:
+- Use semantic HTML for screen reader compatibility.
+- Ensure adequate color contrast and support for large font sizes.
+- Provide keyboard-accessible controls and focus outlines.
+
+5. Interaction patterns:
+- Confirmation modal for delete actions.
+- Inline validation for form inputs.
+- Toast notifications for brief success/error messages.
+
+6. Visual hierarchy and UX flow:
+- Dashboard shows highest-priority tasks (next 3 reminders) at top.
+- A prominent "Add Medicine" CTA (call-to-action) is available across pages.
+- Quick-confirm buttons appear on the dashboard to minimize friction when marking doses as taken.
+
+7. Wireframe suggestions (textual):
+- Header: App logo (DoseMate), theme toggle, profile dropdown.
+- Left sidebar (desktop): Navigation links to Dashboard, Medicines, Reminders, History, Profile.
+- Main area: Page-specific content (cards, forms, lists).
+
+8. Component breakdown (React):
+- `App.jsx`: top-level router and layout.
+- `Dashboard.jsx`: composed of `NextRemindersCard`, `AdherenceSummary`.
+- `MedicineList.jsx`: uses `Card` and `Table` components for listing.
+- `AddEditMedicine.jsx`: controlled form components and schedule picker.
+- `Reminders.jsx`: timeline or calendar view.
+
+9. Styling and theme:
+- Use tailwind.css (already present in project) for utility-first styling and easy responsive classes.
+- Provide a light/dark theme toggle for user preference.
+
+10. Prototype and usability testing:
+- Conduct quick usability tests with 2–3 users to observe workflow friction and adjust button sizes and label clarity.
+- Collect feedback on scheduling UX and edit flows.
+
+11. Summary:
+The UI design focuses on clarity, accessibility, and quick interaction to support medication adherence. The frontend structure encourages reusability and testability of components.
+
+(End of UI Design / Layout)
