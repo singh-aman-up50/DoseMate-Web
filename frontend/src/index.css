@@ -1,4 +1,5 @@
 @import './theme.css';
+@import './styles/theme-utils.css';
 
 @tailwind base;
 @tailwind components;
@@ -23,12 +24,12 @@ body {
 }
 
 :root {
-  --brand: #009665;
-  --brand-dark: #007a53;
-  --brand-600: #0f766e;
-  --accent: #DAF800;
+  --brand: #14b8a6;
+  --brand-dark: #0f766e;
+  --brand-600: #0d9488;
+  --accent: #14b8a6;
   --muted: #6b7280;
-  --card-shadow: 0 10px 30px rgba(2,6,23,0.08);
+  --card-shadow: 0 8px 24px rgba(15, 118, 110, 0.12);
 }
 
 #root {
@@ -54,51 +55,57 @@ select {
 
 @layer components {
   .btn-primary {
-    @apply px-4 py-2 text-white rounded-lg transition duration-200 inline-flex items-center justify-center;
-    background: linear-gradient(180deg, var(--brand) 0%, var(--brand-dark) 100%);
-    box-shadow: var(--card-shadow);
-    border: 1px solid rgba(0,0,0,0.04);
+    @apply px-4 py-2 text-white rounded-xl transition duration-300 inline-flex items-center justify-center;
+    background: linear-gradient(180deg, #14b8a6 0%, #0d9488 100%);
+    box-shadow: 0 4px 16px rgba(20, 184, 166, 0.3);
+    border: 1px solid rgba(20, 184, 166, 0.2);
   }
 
   .btn-primary:hover {
     transform: translateY(-1px);
-    filter: brightness(1.03);
+    background: linear-gradient(180deg, #0d9488 0%, #0f766e 100%);
+    filter: brightness(1.05);
+    box-shadow: 0 8px 24px rgba(15, 118, 110, 0.4);
   }
 
   .btn-secondary {
-    @apply px-4 py-2 rounded-lg transition duration-200 inline-flex items-center justify-center;
-    background: #f3f4f6; /* light neutral */
-    color: #062014;
-    box-shadow: var(--card-shadow);
-    border: 1px solid rgba(2,6,23,0.04);
+    @apply px-4 py-2 rounded-xl transition duration-300 inline-flex items-center justify-center;
+    background: rgba(20, 184, 166, 0.1);
+    color: #0f766e;
+    box-shadow: 0 2px 8px rgba(15, 118, 110, 0.08);
+    border: 1px solid rgba(20, 184, 166, 0.2);
   }
 
   .btn-secondary:hover {
-    filter: brightness(0.98);
-    transform: translateY(-1px);
+    background: rgba(20, 184, 166, 0.15);
+    filter: brightness(0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(20, 184, 166, 0.15);
   }
 
   .card {
-    @apply bg-white rounded-lg p-6 transition;
-    box-shadow: var(--card-shadow);
-    border: 1px solid rgba(2,6,23,0.04);
+    @apply bg-white rounded-2xl p-6 transition;
+    box-shadow: 0 4px 16px rgba(15, 118, 110, 0.1);
+    border: 1px solid rgba(20, 184, 166, 0.1);
     transform: translateZ(0);
   }
 
   .card-premium {
-    @apply bg-white rounded-2xl p-6 md:p-8 transition;
-    box-shadow: 0 12px 40px rgba(2,6,23,0.08);
-    border: 1px solid rgba(2,6,23,0.04);
+    @apply bg-white rounded-3xl p-6 md:p-8 transition;
+    box-shadow: 0 8px 32px rgba(15, 118, 110, 0.12);
+    border: 1px solid rgba(20, 184, 166, 0.15);
   }
 
   .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none;
+    @apply w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2;
+    background-color: rgba(20, 184, 166, 0.05);
+    border-color: rgba(20, 184, 166, 0.2);
     box-shadow: inset 0 1px 0 rgba(0,0,0,0.02);
-    transition: box-shadow .15s ease, border-color .15s ease;
+    transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
   }
 
   .page-bg {
-    background: linear-gradient(135deg, rgba(218,248,0,0.08) 0%, rgba(0,150,101,0.06) 100%);
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(15, 118, 110, 0.04) 100%);
   }
 
   /* Table header style used by Reports */
@@ -109,7 +116,7 @@ select {
   }
 
   .table-row-hover tr:hover {
-    background-color: rgba(0,150,101,0.03);
+    background-color: rgba(20, 184, 166, 0.08);
   }
 }
 

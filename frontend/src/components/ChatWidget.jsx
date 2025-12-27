@@ -51,7 +51,7 @@ export default function ChatWidget() {
         {!open && (
           <IconButton
             onClick={() => setOpen(true)}
-            sx={{ background: 'linear-gradient(135deg,#009665,#00c896)', color: '#fff', width: 64, height: 64, boxShadow: '0 8px 30px rgba(0,150,101,0.24)' }}
+            sx={{ background: 'linear-gradient(135deg,var(--brand),var(--brand-light))', color: '#fff', width: 64, height: 64, boxShadow: '0 8px 30px rgba(11,61,145,0.24)' }}
             aria-label="Open AI Chat"
           >
             <ChatBubble />
@@ -60,7 +60,7 @@ export default function ChatWidget() {
 
         {open && (
           <Paper elevation={24} sx={{ width: { xs: 320, sm: 420 }, height: { xs: 420, sm: 520 }, display: 'flex', flexDirection: 'column', borderRadius: 3, overflow: 'hidden' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.25, background: 'linear-gradient(90deg,#009665,#00c896)', color: '#fff' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.25, background: 'linear-gradient(90deg,var(--brand),var(--brand-light))', color: '#fff' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Avatar sx={{ bgcolor: 'rgba(255,255,255,0.15)' }}>AI</Avatar>
                 <Typography sx={{ fontWeight: 700 }}>DoseMate AI</Typography>
@@ -93,7 +93,7 @@ export default function ChatWidget() {
                 fullWidth
                 onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); sendMessage() } }}
               />
-              <IconButton onClick={sendMessage} disabled={loading} aria-label="Send message" sx={{ bgcolor: '#009665', color: '#fff', '&:hover': { bgcolor: '#007a52' } }}>
+              <IconButton onClick={sendMessage} disabled={loading} aria-label="Send message" sx={{ bgcolor: 'var(--brand)', color: '#fff', '&:hover': { bgcolor: 'var(--brand-dark)' } }}>
                 {loading ? <CircularProgress size={20} color="inherit" /> : <Send />}
               </IconButton>
             </Box>

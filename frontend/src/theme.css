@@ -1,35 +1,69 @@
-/* DoseMate Theme Configuration */
-/* This file controls all color variables for light and dark themes */
+/* DoseMate Theme Configuration - Modern Teal */
+/* Premium teal/aqua gradient with glassmorphism design */
 
 :root {
-  /* Brand Colors */
-  --brand: #009665;
-  --brand-dark: #007a53;
-  --brand-light: #00d084;
-  --brand-600: #0f766e;
-  --accent: #DAF800;
-  --accent-light: #e8ff4d;
+  /* Brand Colors - Modern Teal/Aqua */
+  --brand: #14b8a6; /* Primary teal */
+  --brand-dark: #0f766e; /* Deep teal */
+  --brand-light: #2dd4bf; /* Light teal */
+  --brand-600: #0d9488; /* Medium teal */
+  --accent: #14b8a6; /* Teal accent */
+  --accent-light: #5eead4; /* Light aqua */
+  
+  /* Background Gradient (Light mode) - Teal gradient */
+  --bg-gradient-start: #a7f3d0; /* Light aqua top */
+  --bg-gradient-mid: #ffffff;   /* white center */
+  --bg-gradient-end: #ccfbf1;   /* Soft aqua bottom */
+
+  /* Typography base */
+  --font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-size-base: 16px; /* base body size */
+  --font-size-sm: 13px;   /* small helper text */
+  --font-size-md: 15px;   /* form labels, body */
+  --font-size-lg: 18px;   /* headings and card titles */
+  --heading-weight: 700;
+  --body-weight: 400;
+  /* Navbar & page surface variables */
+  --nav-radius: 14px;
+  --nav-bg: rgba(255,255,255,0.9);
+  --nav-bg-dark: rgba(15, 23, 42,0.85);
+  --nav-blend: linear-gradient(90deg, rgba(20, 184, 166, 0.1), rgba(20, 184, 166, 0.05));
+  /* Page-specific background accent (subtle, low-contrast) */
+  --page-bg-accent: linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(15, 118, 110, 0.04));
+  /* Controls radius */
+  --control-radius: 20px;
+  /* Nav pill variables */
+  --nav-height: 72px;
+  --nav-pill-radius: 9999px; /* pill shape */
+  --nav-max-width: 1800px; /* increased to match wider desktop content */
+  /* Theme toggle / icon sizing */
+  --theme-icon-size: 20px;
+  --theme-icon-size-lg: 24px;
+  --theme-toggle-radius: 14px;
+  --theme-toggle-hover-shadow: 0 8px 30px rgba(20, 184, 166, 0.2);
+  --nav-link-hover-shadow: 0 8px 24px rgba(20, 184, 166, 0.2);
+  --nav-link-active-shadow: 0 12px 36px rgba(15, 118, 110, 0.25);
   
   /* Light Theme - Default */
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
   --text-muted: #9ca3af;
   --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --bg-tertiary: #f3f4f6;
-  --border-color: rgba(0, 150, 101, 0.15);
-  --border-light: rgba(0, 0, 0, 0.1);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 150, 101, 0.1);
-  --shadow-lg: 0 10px 30px rgba(0, 150, 101, 0.15);
-  --shadow-xl: 0 20px 60px rgba(0, 150, 101, 0.15);
-  --shadow-2xl: 0 30px 80px rgba(0, 150, 101, 0.2);
-  --card-bg: rgba(255, 255, 255, 0.95);
-  --input-bg: rgba(0, 150, 101, 0.02);
-  --input-border: rgba(0, 150, 101, 0.1);
-  --hover-bg: rgba(0, 150, 101, 0.05);
+  --bg-secondary: #f0fdfa;
+  --bg-tertiary: #ccfbf1;
+  --border-color: rgba(20, 184, 166, 0.2);
+  --border-light: rgba(20, 184, 166, 0.1);
+  --shadow-sm: 0 2px 8px rgba(15, 118, 110, 0.08);
+  --shadow-md: 0 4px 16px rgba(20, 184, 166, 0.12);
+  --shadow-lg: 0 8px 24px rgba(15, 118, 110, 0.15);
+  --shadow-xl: 0 12px 32px rgba(15, 118, 110, 0.18);
+  --shadow-2xl: 0 20px 60px rgba(15, 118, 110, 0.2);
+  --card-bg: linear-gradient(180deg, rgba(250,128,114,0.08) 0%, rgba(255,255,255,0.96) 60%);
+  --input-bg: rgba(20, 184, 166, 0.03);
+  --input-border: rgba(20, 184, 166, 0.15);
+  --hover-bg: rgba(20, 184, 166, 0.08);
   --overlay-bg: rgba(0, 0, 0, 0.5);
-  --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  --card-shadow: 0 8px 24px rgba(15, 118, 110, 0.12);
   
   /* Status Colors */
   --success: #4caf50;
@@ -46,80 +80,166 @@
 /* Dark Theme */
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Dark theme gradient */
+    --bg-gradient-start: rgba(15, 118, 110, 0.15); /* faint teal */
+    --bg-gradient-mid: rgba(15, 23, 42, 0.6);     /* deep slate */
+    --bg-gradient-end: rgba(20, 184, 166, 0.08);  /* subtle teal wash */
+
+    /* Typography adjustments for dark mode (same sizes) */
+    --font-family-base: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    --font-size-base: 16px;
+    --font-size-sm: 13px;
+    --font-size-md: 15px;
+    --font-size-lg: 18px;
     --text-primary: #ffffff;
     --text-secondary: #e5e7eb;
     --text-muted: #d1d5db;
     --bg-primary: #1a1a1f;
     --bg-secondary: #242429;
     --bg-tertiary: #2d2d33;
-    --border-color: rgba(218, 248, 0, 0.15);
+    --border-color: rgba(20, 184, 166, 0.2);
     --border-light: rgba(255, 255, 255, 0.1);
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
-    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
-    --shadow-2xl: 0 30px 80px rgba(0, 0, 0, 0.4);
-    --card-bg: rgba(30, 30, 35, 0.8);
-    --input-bg: rgba(255, 255, 255, 0.05);
-    --input-border: rgba(255, 255, 255, 0.1);
-    --hover-bg: rgba(0, 150, 101, 0.1);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6);
+    --shadow-2xl: 0 20px 60px rgba(0, 0, 0, 0.7);
+    --card-bg: linear-gradient(135deg, rgba(20, 184, 166, 0.05), rgba(15, 118, 110, 0.03));
+    --input-bg: rgba(20, 184, 166, 0.08);
+    --input-border: rgba(20, 184, 166, 0.15);
+    --hover-bg: rgba(20, 184, 166, 0.1);
     --overlay-bg: rgba(0, 0, 0, 0.7);
-    --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(218, 248, 0, 0.1);
+    --card-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(20, 184, 166, 0.1);
   }
 }
 
 /* Dark Mode Class (for manual theme toggle) */
 html[data-theme="dark"] {
+  /* ensure gradient vars exist when toggling manually */
+  --bg-gradient-start: rgba(15, 118, 110, 0.15);
+  --bg-gradient-mid: rgba(15, 23, 42, 0.6);
+  --bg-gradient-end: rgba(20, 184, 166, 0.08);
   --text-primary: #ffffff;
   --text-secondary: #e5e7eb;
   --text-muted: #d1d5db;
   --bg-primary: #1a1a1f;
   --bg-secondary: #242429;
   --bg-tertiary: #2d2d33;
-  --border-color: rgba(218, 248, 0, 0.15);
+  --border-color: rgba(20, 184, 166, 0.2);
   --border-light: rgba(255, 255, 255, 0.1);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.3);
-  --shadow-2xl: 0 30px 80px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 12px 32px rgba(0, 0, 0, 0.6);
+  --shadow-2xl: 0 20px 60px rgba(0, 0, 0, 0.7);
   --card-bg: rgba(30, 30, 35, 0.8);
-  --input-bg: rgba(255, 255, 255, 0.05);
-  --input-border: rgba(255, 255, 255, 0.1);
-  --hover-bg: rgba(0, 150, 101, 0.1);
+  --input-bg: rgba(20, 184, 166, 0.08);
+  --input-border: rgba(20, 184, 166, 0.15);
+  --hover-bg: rgba(20, 184, 166, 0.1);
   --overlay-bg: rgba(0, 0, 0, 0.7);
-  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(218, 248, 0, 0.1);
+  --nav-bg: var(--nav-bg-dark);
+  --nav-blend: linear-gradient(90deg, rgba(20, 184, 166, 0.08), rgba(20, 20, 26, 0.8));
+  --page-bg-accent: linear-gradient(135deg, rgba(20, 184, 166, 0.08), rgba(15, 118, 110, 0.04));
 }
 
 /* Light Mode Class (for manual theme toggle) */
 html[data-theme="light"] {
+  --bg-gradient-start: #a7f3d0;
+  --bg-gradient-mid: #FFFFFF;
+  --bg-gradient-end: #ccfbf1;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
   --text-muted: #9ca3af;
   --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --bg-tertiary: #f3f4f6;
-  --border-color: rgba(0, 150, 101, 0.15);
-  --border-light: rgba(0, 0, 0, 0.1);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 150, 101, 0.1);
-  --shadow-lg: 0 10px 30px rgba(0, 150, 101, 0.15);
-  --shadow-xl: 0 20px 60px rgba(0, 150, 101, 0.15);
-  --shadow-2xl: 0 30px 80px rgba(0, 150, 101, 0.2);
+  --bg-secondary: #f0fdfa;
+  --bg-tertiary: #ccfbf1;
+  --border-color: rgba(20, 184, 166, 0.2);
+  --border-light: rgba(20, 184, 166, 0.1);
+  --shadow-sm: 0 2px 8px rgba(15, 118, 110, 0.08);
+  --shadow-md: 0 4px 16px rgba(20, 184, 166, 0.12);
+  --shadow-lg: 0 8px 24px rgba(15, 118, 110, 0.15);
+  --shadow-xl: 0 12px 32px rgba(15, 118, 110, 0.18);
+  --shadow-2xl: 0 20px 60px rgba(15, 118, 110, 0.2);
   --card-bg: rgba(255, 255, 255, 0.95);
-  --input-bg: rgba(0, 150, 101, 0.02);
-  --input-border: rgba(0, 150, 101, 0.1);
-  --hover-bg: rgba(0, 150, 101, 0.05);
+  --input-bg: rgba(20, 184, 166, 0.03);
+  --input-border: rgba(20, 184, 166, 0.15);
+  --hover-bg: rgba(20, 184, 166, 0.08);
   --overlay-bg: rgba(0, 0, 0, 0.5);
-  --card-shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  --card-shadow: 0 8px 24px rgba(15, 118, 110, 0.12);
 }
 
 /* Body Backgrounds */
 body {
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* soft multi-stop background gradient that adapts to theme */
+  background-image: linear-gradient(180deg, var(--bg-gradient-start), var(--bg-gradient-mid) 55%, var(--bg-gradient-end));
+  background-attachment: fixed;
+  background-size: cover;
+  transition: background 0.35s ease, color 0.3s ease;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: 1.45;
 }
+
+/* Nav container utility */
+.nav-container {
+  background: #1e3a5f;
+  backdrop-filter: blur(8px);
+  border-radius: 0px;
+  padding: 0.35rem;
+  border: none;
+  box-shadow: var(--shadow-sm);
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--nav-max-width);
+  margin: 0 auto;
+}
+
+/* Page surface accent used behind dashboard cards/pages */
+.page-surface {
+  background-image: var(--page-bg-accent);
+}
+
+/* Nav link styles */
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: calc(var(--nav-pill-radius) / 8);
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, background 0.18s ease, color 0.18s ease;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.nav-link:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--nav-link-hover-shadow);
+  color: #fbbf24;
+}
+
+.nav-link:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+.nav-link.active {
+  background: linear-gradient(90deg, var(--brand), var(--brand-light));
+  color: #ffffff;
+  box-shadow: var(--nav-link-active-shadow);
+}
+
+/* Icon and label micro-animation */
+.nav-link svg { transition: transform 0.22s cubic-bezier(0.22,1,0.36,1); }
+.nav-link > span { transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), color 0.18s ease; }
+.nav-link:hover svg { transform: translateY(-4px) scale(1.08); }
+.nav-link:hover > span { transform: translateY(-2px); color: #fbbf24; }
+
+/* small underline animation for non-active links */
+/* Removed underline element: visual emphasis now via lift + shadow only */
 
 /* Common Elements using Theme Variables */
 input,
@@ -130,6 +250,14 @@ select {
   color: var(--text-primary);
 }
 
+/* Typography utilities */
+h1, h2, h3, h4, h5, h6 { color: var(--text-primary); font-weight: var(--heading-weight); margin: 0 0 0.5rem 0; }
+h1 { font-size: calc(var(--font-size-lg) * 1.6); }
+h2 { font-size: calc(var(--font-size-lg) * 1.2); }
+h3 { font-size: calc(var(--font-size-lg)); }
+p, label, li { font-size: var(--font-size-md); color: var(--text-secondary); }
+.small { font-size: var(--font-size-sm); color: var(--text-muted); }
+
 button {
   transition: all 0.3s ease;
 }
@@ -137,8 +265,19 @@ button {
 .card,
 [role="dialog"],
 .modal {
-  background-color: var(--card-bg);
+  /* Use the theme card background (allows gradient) and keep border color
+     Dialogs and modal surfaces should match card styling for consistency */
+  background: var(--card-bg);
   border-color: var(--border-color);
+  border-radius: calc(var(--control-radius) - 4px);
+  box-shadow: var(--card-shadow);
+}
+
+/* Generic card helper to ensure plain .card elements look professional */
+.card {
+  padding: 1rem;
+  border: 1px solid rgba(250,128,114,0.06);
+  color: var(--text-primary);
 }
 
 /* Utility Classes */
@@ -177,6 +316,50 @@ button {
 .gradient-subtle {
   background: linear-gradient(135deg, rgba(0, 150, 101, 0.08), rgba(218, 248, 0, 0.03));
 }
+
+/* Premium card and layout utilities */
+.card-premium {
+  /* Salmon-tinted premium card */
+  background: linear-gradient(180deg, rgba(255,240,238,0.95) 0%, rgba(255,255,255,0.98) 60%);
+  color: var(--text-primary);
+  padding: 1.25rem;
+  border-radius: calc(var(--control-radius) - 4px);
+  border: 1px solid rgba(250,128,114,0.10);
+  box-shadow: 0 8px 30px rgba(250,128,114,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+  width: 100%;
+  max-width: 100%;
+  min-height: 72px;
+}
+
+/* Button utilities using theme variables */
+.btn-primary {
+  background: linear-gradient(90deg, var(--brand), var(--brand-light));
+  color: #fff;
+  border: none;
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--control-radius);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--control-radius);
+}
+
+/* Brand and accent utilities */
+.bg-brand { background-color: var(--brand); }
+.bg-accent { background-color: var(--accent); }
+.from-brand-to-accent { background: linear-gradient(90deg, var(--brand), var(--accent)); }
+
+/* Small responsive card sizing for a clean grid */
+.card-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.card-col { flex: 1 1 260px; }
+
 
 /* Theme Toggle Icon Base Styling */
 .theme-toggle {

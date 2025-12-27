@@ -60,8 +60,8 @@ public class MedicineController {
         
         Map<String, Object> response = new HashMap<>();
         response.put("medicineId", id);
-        response.put("currentStock", medicine.getStock());
-        response.put("refillThreshold", medicine.getRefillThreshold());
+        response.put("currentStock", medicine.getStock() != null ? medicine.getStock() : 0);
+        response.put("refillThreshold", medicine.getRefillThreshold() != null ? medicine.getRefillThreshold() : 10);
         response.put("isLowStock", lowStock);
         
         return ResponseEntity.ok(response);

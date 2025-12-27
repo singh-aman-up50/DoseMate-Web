@@ -67,8 +67,8 @@ const AddEditMedicine = () => {
   }
 
   return (
-    <div className="min-h-screen p-8">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen p-0 py-8" style={{ background: 'linear-gradient(180deg, #a7f3d0 0%, #ffffff 55%, #ccfbf1 100%)', backgroundAttachment: 'fixed' }}>
+      <div className="w-full mx-0 px-3 sm:px-4 lg:px-6">
         <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-semibold">{id ? 'Edit Medicine' : 'Add New Medicine'}</h2>

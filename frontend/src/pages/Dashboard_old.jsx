@@ -131,7 +131,7 @@ export default function Dashboard() {
   ]
 
   const pieData = [
-    { name: 'Taken', value: stats?.taken || 0, fill: '#009665' },
+    { name: 'Taken', value: stats?.taken || 0, fill: 'var(--brand)' },
     { name: 'Missed', value: stats?.missed || 0, fill: '#ef4444' }
   ]
 
@@ -209,9 +209,9 @@ export default function Dashboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                   <XAxis dataKey="date" stroke="#999" />
                   <YAxis stroke="#999" />
-                  <Tooltip contentStyle={{backgroundColor: '#fff', border: '2px solid #009665', borderRadius: '12px'}} />
+                  <Tooltip contentStyle={{backgroundColor: '#fff', border: '2px solid var(--brand)', borderRadius: '12px'}} />
                   <Legend />
-                  <Bar dataKey="taken" fill="#009665" name="Taken" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="taken" fill="var(--brand)" name="Taken" radius={[8, 8, 0, 0]} />
                   <Bar dataKey="total" fill="#e0f2fe" name="Total" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -232,7 +232,7 @@ export default function Dashboard() {
                       <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{backgroundColor: '#fff', border: '2px solid #009665', borderRadius: '12px'}} />
+                  <Tooltip contentStyle={{backgroundColor: '#fff', border: '2px solid var(--brand)', borderRadius: '12px'}} />
                 </PieChart>
               </ResponsiveContainer>
             </div>

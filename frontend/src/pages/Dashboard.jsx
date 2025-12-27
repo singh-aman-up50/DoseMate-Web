@@ -14,6 +14,7 @@ export default function Dashboard() {
   const [weeklyData, setWeeklyData] = useState([])
   const [medicines, setMedicines] = useState([])
   const [pendingReminders, setPendingReminders] = useState([])
+  const [missedReminders, setMissedReminders] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -51,7 +52,8 @@ export default function Dashboard() {
         fetchStats(),
         fetchWeeklyData(),
         fetchMedicines(),
-        fetchPendingReminders()
+        fetchPendingReminders(),
+        fetchMissedReminders()
       ])
     } catch (error) {
       console.error('Error fetching dashboard data:', error)
@@ -96,6 +98,19 @@ export default function Dashboard() {
     }
   }
 
+  const fetchMissedReminders = async () => {
+    try {
+      const response = await api.get('/history')
+      const historyData = Array.isArray(response.data) ? response.data : []
+      const missed = historyData.filter(h => String(h.status).toUpperCase() === 'MISSED')
+      const items = missed.map(h => ({ id: h.reminder?.id || h.reminderId, medicineName: h.reminder?.medicine?.name || h.medicineName, when: h.timestamp }))
+      setMissedReminders(items)
+    } catch (error) {
+      console.error('Error fetching missed reminders:', error)
+      setMissedReminders([])
+    }
+  }
+
   const markTaken = async (reminderId) => {
     try {
       // Optimistic UI update: remove reminder immediately
@@ -132,7 +147,7 @@ export default function Dashboard() {
   ]
 
   const pieData = [
-    { name: 'Taken', value: stats?.taken || 0, fill: '#009665' },
+    { name: 'Taken', value: stats?.taken || 0, fill: 'var(--brand)' },
     { name: 'Missed', value: stats?.missed || 0, fill: '#ef4444' }
   ]
 
@@ -141,8 +156,8 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="min-h-screen page-bg p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen page-bg p-0 py-8" style={{ background: 'linear-gradient(180deg, #a7f3d0 0%, #ffffff 55%, #ccfbf1 100%)', backgroundAttachment: 'fixed' }}>
+        <div className="w-full mx-0 px-3 sm:px-4 lg:px-6">
           {/* Header */}
           <div className="mb-12">
             <div className="flex items-center justify-between">
@@ -190,7 +205,7 @@ export default function Dashboard() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="taken" fill="#009665" name="Taken" />
+                  <Bar dataKey="taken" fill="var(--brand)" name="Taken" />
                   <Bar dataKey="total" fill="#e5e7eb" name="Total" />
                 </BarChart>
               </ResponsiveContainer>
@@ -201,7 +216,7 @@ export default function Dashboard() {
               <h3 className="text-xl font-bold text-gray-900 mb-4">Overall Status</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
-                  <Pie data={pieData} cx="50%" cy="50%" labelLine={false} label={({ name, value }) => `${name}: ${value}`} outerRadius={80}>
+                  <Pie data={pieData} cx="50%" cy="50%" labelLine={false} label={({ name, value }) => `${name}: ${value}`} outerRadius={80} dataKey="value">
                     {pieData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
@@ -221,7 +236,7 @@ export default function Dashboard() {
               </div>
               <div className="space-y-3">
                 {pendingReminders.slice(0, 5).map((reminder) => (
-                  <div key={reminder.id} className="flex items-center justify-between p-4 bg-white rounded-lg border border-gray-100">
+                  <div key={reminder.id} className="card flex items-center justify-between p-4">
                     <div>
                       <p className="font-semibold text-gray-900">{reminder.medicineName}</p>
                       <p className="text-sm text-gray-600">Scheduled: {new Date(reminder.scheduledAt).toLocaleTimeString()}</p>
@@ -229,6 +244,26 @@ export default function Dashboard() {
                     <button onClick={() => markTaken(reminder.id)} className="px-4 py-2 bg-brand text-white rounded-lg hover:opacity-95 transition" style={{ boxShadow: '0 6px 18px rgba(0,0,0,0.06)' }}>
                       Mark Taken
                     </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {/* Missed Reminders */}
+          {missedReminders.length > 0 && (
+            <div className="card mt-6">
+              <div className="flex items-center gap-2 mb-4">
+                <AlertCircle className="text-red-500" size={24} />
+                <h3 className="text-xl font-bold text-gray-900">Missed</h3>
+              </div>
+              <div className="space-y-3">
+                {missedReminders.slice(0, 6).map((m) => (
+                  <div key={m.id} className="card flex items-center justify-between p-4">
+                    <div>
+                      <p className="font-semibold text-gray-900">{m.medicineName || '—'}</p>
+                      <p className="text-sm text-gray-600">Missed at: {new Date(m.when).toLocaleString()}</p>
+                    </div>
+                    <div className="text-sm text-red-500 font-semibold">Missed</div>
                   </div>
                 ))}
               </div>

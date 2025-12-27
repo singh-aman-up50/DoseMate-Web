@@ -1,0 +1,60 @@
+/* Theme utilities: glassmorphism, buttons, inputs, and MUI overrides */
+:root{
+  --control-radius: 16px;
+  --glass-bg: rgba(255,255,255,0.64);
+  --glass-border: rgba(255,255,255,0.4);
+  --glass-blur: 10px;
+  --btn-focus-ring: rgba(20,184,166,0.14);
+}
+
+/* Glass card */
+.glass-card{
+  background: linear-gradient(180deg, rgba(255,240,238,0.9), rgba(255,255,255,0.85));
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border-radius: calc(var(--control-radius) - 4px);
+  border: 1px solid rgba(250,128,114,0.08);
+  box-shadow: 0 12px 34px rgba(250,128,114,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* Teal primary button (reusable) */
+.btn-teal{
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:0.55rem 1rem;border-radius:var(--control-radius);
+  color:#fff;background:linear-gradient(180deg,var(--brand) 0%, var(--brand-dark) 100%);
+  box-shadow:0 8px 24px rgba(15,118,110,0.18);border:none;
+  transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
+}
+.btn-teal:hover{transform:translateY(-2px);background:linear-gradient(180deg,var(--brand-dark) 0%, #115e59 100%);box-shadow:0 12px 32px rgba(15,118,110,0.24)}
+.btn-teal:active{transform:translateY(0);filter:brightness(.98)}
+
+/* Rounded inputs */
+.input-rounded{border-radius:calc(var(--control-radius) - 6px);padding:0.65rem 0.9rem;border:1px solid var(--input-border);background:var(--input-bg);box-shadow:inset 0 2px 6px rgba(15,118,110,0.03);transition:box-shadow .18s ease,border-color .18s ease,background .18s ease}
+.input-rounded:focus{outline:none;box-shadow:0 6px 20px rgba(20,184,166,0.12);border-color:var(--brand)}
+
+/* Card helpers */
+.card-glass{background:var(--card-bg);border-radius:var(--control-radius);box-shadow:var(--card-shadow);border:1px solid rgba(20,184,166,0.08);padding:1rem}
+
+/* Utilities */
+.rounded-lg{border-radius:var(--control-radius)}
+.transition-smooth{transition:all .25s cubic-bezier(.2,.9,.2,1)}
+
+/* MUI Overrides - lightweight and non-invasive */
+.MuiButton-root{border-radius:var(--control-radius) !important;text-transform:none !important}
+.MuiPaper-root,.MuiCard-root{background:var(--card-bg) !important;box-shadow:var(--card-shadow) !important;border-radius:var(--control-radius) !important}
+.MuiInputBase-root{background:var(--input-bg) !important;border-radius:calc(var(--control-radius) - 8px) !important;padding:6px 8px}
+.MuiOutlinedInput-notchedOutline{border-color:var(--input-border) !important}
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline{border-color:var(--brand) !important;box-shadow:0 8px 30px rgba(20,184,166,0.08) !important}
+
+/* Responsive adjustments */
+@media (max-width: 640px){
+  :root{--control-radius:12px}
+  .btn-teal{padding:0.5rem 0.85rem}
+}
+
+/* Small helpers for spacing consistency */
+.u-gap{gap:1rem}
+.u-pad{padding:1rem}
+
+/* Ensure anchor contrast on teal backgrounds */
+.btn-teal a{color:inherit}

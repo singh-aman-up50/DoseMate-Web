@@ -33,4 +33,11 @@ public class RegisterRequest {
 
     @Min(value = 1, message = "Age must be positive if provided")
     private Integer age;
+
+    private String role; // "ROLE_USER" or "ROLE_CAREGIVER"
+    // Optional caregiver-specific registration fields
+    private String organization;
+    private String licenseNumber;
+    private String specialization;
+    private Integer yearsExperience;
 }

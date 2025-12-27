@@ -13,7 +13,7 @@ import {
   IconButton,
   CircularProgress
 } from '@mui/material'
-import { Visibility, VisibilityOff, Lock, MailOutline } from '@mui/icons-material'
+import { Visibility, VisibilityOff, MailOutline } from '@mui/icons-material'
 import { AuthContext } from '../context/AuthContext'
 import { ThemeContext } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
@@ -33,8 +33,16 @@ const Login = () => {
     setLoading(true)
 
     try {
-      await login(email, password)
-      navigate('/dashboard')
+      const res = await login(email, password)
+      // After login, redirect based on role
+      const loggedUser = res?.user || JSON.parse(localStorage.getItem('user'))
+      if (loggedUser?.role === 'ROLE_CAREGIVER') {
+        navigate('/caregiver/dashboard')
+      } else if (loggedUser?.role === 'ROLE_ADMIN') {
+        navigate('/reports')
+      } else {
+        navigate('/dashboard')
+      }
     } catch (err) {
       setError(err.response?.data?.error || 'Login failed')
     } finally {
@@ -44,20 +52,20 @@ const Login = () => {
 
   const inputSx = {
     '& .MuiOutlinedInput-root': {
-      borderRadius: '12px',
+      borderRadius: '16px',
       height: 48,
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      backgroundColor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,150,101,0.02)',
+      backgroundColor: 'rgba(20, 184, 166, 0.05)',
       border: '2px solid',
-      borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,150,101,0.1)',
+      borderColor: 'rgba(20, 184, 166, 0.2)',
       '&:hover fieldset': {
-        borderColor: '#009665',
-        backgroundColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,150,101,0.05)'
+        borderColor: 'var(--brand)',
+        backgroundColor: 'rgba(20, 184, 166, 0.08)'
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#009665',
+        borderColor: 'var(--brand)',
         borderWidth: '2px',
-        boxShadow: '0 0 0 4px rgba(0,150,101,0.1)'
+        boxShadow: '0 0 0 3px rgba(20, 184, 166, 0.1)'
       }
     },
     '& .MuiInputBase-input': {
@@ -70,7 +78,7 @@ const Login = () => {
       fontSize: '14px',
       fontWeight: '600',
       color: darkMode ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)',
-      '&.Mui-focused': { color: '#009665' }
+      '&.Mui-focused': { color: 'var(--brand)' }
     }
   }
 
@@ -85,7 +93,7 @@ const Login = () => {
         left: 0,
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(135deg, #dd5e89 0%, #f7bb97 100%)',
+        background: 'linear-gradient(135deg, #14b8a6, #0d9488, #0f766e)',
         pointerEvents: 'none',
         zIndex: -1
       }} />
@@ -98,8 +106,8 @@ const Login = () => {
         width: '100%',
         height: '100%',
         background: darkMode
-          ? 'radial-gradient(circle at 30% 50%, rgba(13, 115, 119, 0.1) 0%, transparent 50%)'
-          : 'radial-gradient(circle at 70% 60%, rgba(132, 204, 22, 0.08) 0%, transparent 60%)',
+          ? 'radial-gradient(circle at 30% 50%, rgba(20, 184, 166, 0.1) 0%, transparent 50%)'
+          : 'radial-gradient(circle at 70% 60%, rgba(20, 184, 166, 0.08) 0%, transparent 60%)',
         pointerEvents: 'none',
         zIndex: -1
       }} />
@@ -139,24 +147,22 @@ const Login = () => {
             backdropFilter: 'blur(30px)',
             background: darkMode
               ? 'linear-gradient(135deg, rgba(30,35,50,0.7) 0%, rgba(20,25,40,0.6) 100%)'
-              : 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,255,240,0.8) 100%)',
+              : 'linear-gradient(135deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55))',
             border: '1.5px solid',
-            borderColor: darkMode
-              ? 'rgba(100, 200, 150, 0.3)'
-              : 'rgba(132, 204, 22, 0.4)',
+            borderColor: 'rgba(20, 184, 166, 0.15)',
             boxShadow: darkMode
-              ? '0 25px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(100,200,150,0.2), 0 0 40px rgba(13,115,119,0.3)'
-              : '0 25px 80px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8), 0 0 40px rgba(132,204,22,0.2)',
+              ? '0 25px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(20,184,166,0.2), 0 0 40px rgba(15,118,110,0.3)'
+              : '0 8px 24px rgba(15, 118, 110, 0.12)',
             position: 'relative',
             overflow: 'hidden',
             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               boxShadow: darkMode
-                ? '0 35px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(100,200,150,0.3), 0 0 60px rgba(13,115,119,0.5)'
-                : '0 35px 100px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), 0 0 60px rgba(132,204,22,0.3)',
+                ? '0 35px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(20,184,166,0.3), 0 0 60px rgba(15,118,110,0.5)'
+                : '0 12px 32px rgba(15, 118, 110, 0.15)',
               transform: 'translateY(-5px)'
             }
-          }}>>
+          }}>
             {/* Decorative elements */}
             <Box sx={{
               position: 'absolute',
@@ -181,28 +187,27 @@ const Login = () => {
 
             <Box sx={{ position: 'relative', zIndex: 1 }}>
               {/* Header */}
-              <Box sx={{ mb: 3, textAlign: 'center' }}>
+              <Box sx={{ mb: 0.75, textAlign: 'center' }}>
                 <Box sx={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: 60,
-                  height: 60,
-                  borderRadius: '14px',
-                  background: 'linear-gradient(135deg, #009665, #00d084)',
-                  mb: 2,
+                  width: 220,
+                  height: 220,
+                  borderRadius: '8px',
+                  background: 'transparent',
+                  mb: 0.25,
                   mx: 'auto',
-                  boxShadow: '0 8px 24px rgba(0,150,101,0.3)',
-                  transition: 'all 0.3s ease'
+                  boxShadow: 'none',
+                  transition: 'all 0.3s ease',
+                  overflow: 'visible'
                 }}>
-                  <Lock sx={{ fontSize: 32, color: '#fff' }} />
+                  <img src="/dosemate-logo.png" alt="DoseMate" style={{ width: 192, height: 192, objectFit: 'contain', background: 'transparent' }} />
                 </Box>
                 <Typography variant="h4" sx={{
                   fontWeight: 800,
                   mb: 0.5,
-                  background: 'linear-gradient(135deg, #009665, #daf800)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
+                  color: '#000',
                   fontSize: { xs: '28px', sm: '32px' }
                 }}>
                   Welcome Back
@@ -220,7 +225,7 @@ const Login = () => {
               {error && (
                 <Alert severity="error" sx={{
                   mb: 2.5,
-                  borderRadius: '12px',
+                  borderRadius: '20px',
                   border: '1px solid',
                   borderColor: 'error.main',
                   background: 'rgba(244,67,54,0.08)',
@@ -246,7 +251,7 @@ const Login = () => {
                       input: {
                         startAdornment: (
                           <InputAdornment position="start">
-                            <MailOutline sx={{ color: '#009665' }} />
+                            <MailOutline sx={{ color: 'var(--brand)' }} />
                           </InputAdornment>
                         )
                       }
@@ -271,7 +276,7 @@ const Login = () => {
                               onClick={() => setShowPassword((s) => !s)}
                               onMouseDown={(e) => e.preventDefault()}
                               edge="end"
-                              sx={{ color: '#009665' }}
+                              sx={{ color: 'var(--brand)' }}
                             >
                               {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
@@ -290,12 +295,12 @@ const Login = () => {
                     sx={{
                       mt: 2,
                       py: 1.6,
-                      borderRadius: '12px',
+                      borderRadius: '20px',
                       fontSize: '16px',
                       fontWeight: '700',
-                      textTransform: 'none',
-                      background: 'linear-gradient(135deg, #009665, #00d084)',
-                      boxShadow: '0 8px 24px rgba(0,150,101,0.3)',
+                      textTransform: 'uppercase',
+                      background: 'linear-gradient(90deg, #14b8a6 0%, #0d9488 100%)',
+                      boxShadow: '0 8px 24px rgba(20,184,166,0.3)',
                       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                       position: 'relative',
                       overflow: 'hidden',
@@ -313,7 +318,7 @@ const Login = () => {
                         left: '100%',
                       },
                       '&:hover:not(:disabled)': {
-                        boxShadow: '0 12px 32px rgba(0,150,101,0.4)',
+                        boxShadow: '0 12px 32px rgba(20,184,166,0.4)',
                         transform: 'translateY(-2px)'
                       },
                       '&:disabled': {
@@ -350,7 +355,7 @@ const Login = () => {
                   <Typography sx={{
                     fontSize: '15px',
                     fontWeight: '700',
-                    background: 'linear-gradient(135deg, #009665, #daf800)',
+                    background: 'linear-gradient(135deg, var(--brand), var(--accent))',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     cursor: 'pointer',

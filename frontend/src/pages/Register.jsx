@@ -14,12 +14,13 @@ import {
   LinearProgress,
   Tooltip
 } from '@mui/material'
-import { Visibility, VisibilityOff, CheckCircle, Info, Person, Mail, Phone, LocationOn, Lock, PersonAdd } from '@mui/icons-material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { AuthContext } from '../context/AuthContext'
 import { ThemeContext } from '../context/ThemeContext'
 import ThemeToggle from '../components/ThemeToggle'
 
 const Register = () => {
+  const [roleSelected, setRoleSelected] = useState(null)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -35,11 +36,16 @@ const Register = () => {
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
   const [focusedField, setFocusedField] = useState(null)
+  const [role, setRole] = useState('ROLE_USER')
+  const [organization, setOrganization] = useState('')
+  const [licenseNumber, setLicenseNumber] = useState('')
+  const [specialization, setSpecialization] = useState('')
+  const [yearsExperience, setYearsExperience] = useState('')
+  
   const { register } = useContext(AuthContext)
   const { darkMode, toggleDarkMode } = useContext(ThemeContext)
   const navigate = useNavigate()
 
-  // Calculate password strength
   const getPasswordStrength = () => {
     if (!password) return { strength: 0, label: '', color: 'error' }
     let strength = 0
@@ -62,31 +68,31 @@ const Register = () => {
 
   const inputSx = {
     '& .MuiOutlinedInput-root': {
-      borderRadius: '12px',
-      height: 48,
+      borderRadius: '16px',
+      height: 40,
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      backgroundColor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,150,101,0.02)',
+      backgroundColor: 'rgba(20, 184, 166, 0.05)',
       border: '2px solid',
-      borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,150,101,0.1)',
+      borderColor: 'rgba(20, 184, 166, 0.2)',
       '&:hover fieldset': {
-        borderColor: '#009665',
-        backgroundColor: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,150,101,0.05)'
+        borderColor: 'var(--brand)',
+        backgroundColor: 'rgba(20, 184, 166, 0.08)'
       },
       '&.Mui-focused fieldset': {
-        borderColor: '#009665',
+        borderColor: 'var(--brand)',
         borderWidth: '2px',
-        boxShadow: '0 0 0 4px rgba(0,150,101,0.1)'
+        boxShadow: '0 0 0 3px rgba(20, 184, 166, 0.1)'
       }
     },
     '& .MuiInputBase-input': {
       fontSize: '15px',
       fontWeight: '500',
-      padding: '12px 16px'
+      padding: '12px 18px'
     },
     '& .MuiInputLabel-root': {
       fontSize: '14px',
       fontWeight: '600',
-      '&.Mui-focused': { color: '#009665' }
+      '&.Mui-focused': { color: 'var(--brand)' }
     }
   }
 
@@ -104,18 +110,23 @@ const Register = () => {
 
     try {
       const combinedAddress = `${stateName || ''}${district ? (stateName ? ', ' : '') + district : ''}`
-      await register(firstName, lastName, email, password, confirmPassword, phone, combinedAddress || null, parseInt(age) || null)
+      const caregiverMeta = role === 'ROLE_CAREGIVER' ? {
+        organization: organization || null,
+        licenseNumber: licenseNumber || null,
+        specialization: specialization || null,
+        yearsExperience: yearsExperience ? parseInt(yearsExperience) : null
+      } : null
+
+      await register(firstName, lastName, email, password, confirmPassword, phone, combinedAddress || null, parseInt(age) || null, role, caregiverMeta)
       setSuccess('Registration successful! Redirecting to login page...')
       setTimeout(() => navigate('/login'), 2000)
     } catch (err) {
       console.error('Registration error:', err)
-      console.error('Error response:', err.response?.data)
       const errorData = err.response?.data
       if (typeof errorData === 'object') {
         if (errorData.error) {
           setError(errorData.error)
         } else {
-          // Field validation errors
           const fieldErrors = Object.values(errorData).join(', ')
           setError(fieldErrors || 'Registration failed')
         }
@@ -129,19 +140,17 @@ const Register = () => {
 
   return (
     <Container maxWidth="lg" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', py: 2 }}>
-      {/* Animated Background Gradient */}
       <Box sx={{
         position: 'fixed',
         top: 0,
         left: 0,
         width: '100%',
         height: '100%',
-        background: 'linear-gradient(135deg, #dd5e89 0%, #f7bb97 100%)',
+        background: 'linear-gradient(135deg, #14b8a6, #0d9488, #0f766e)',
         pointerEvents: 'none',
         zIndex: -1
       }} />
       
-      {/* Overlay for better contrast */}
       <Box sx={{
         position: 'fixed',
         top: 0,
@@ -149,13 +158,12 @@ const Register = () => {
         width: '100%',
         height: '100%',
         background: darkMode
-          ? 'radial-gradient(circle at 30% 50%, rgba(13, 115, 119, 0.1) 0%, transparent 50%)'
-          : 'radial-gradient(circle at 70% 60%, rgba(132, 204, 22, 0.08) 0%, transparent 60%)',
+          ? 'radial-gradient(circle at 30% 50%, rgba(20, 184, 166, 0.1) 0%, transparent 50%)'
+          : 'radial-gradient(circle at 70% 60%, rgba(20, 184, 166, 0.08) 0%, transparent 60%)',
         pointerEvents: 'none',
         zIndex: -1
       }} />
 
-      {/* Theme Toggle Button */}
       <ThemeToggle />
 
       <Box sx={{
@@ -166,75 +174,76 @@ const Register = () => {
         gap: { xs: 3, md: 8 },
         px: { xs: 2, md: 4 }
       }}>
-        {/* Left: Premium Form Card */}
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
           <Card sx={{
             width: '100%',
-            maxWidth: 500,
+            maxWidth: 480,
             borderRadius: '24px',
-            p: { xs: 2.5, sm: 3 },
+            p: { xs: '28px 24px', sm: '32px 28px' },
             backdropFilter: 'blur(30px)',
             background: darkMode
-              ? 'linear-gradient(135deg, rgba(30,35,50,0.7) 0%, rgba(20,25,40,0.6) 100%)'
-              : 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(240,255,240,0.8) 100%)',
+              ? 'linear-gradient(180deg, rgba(20,184,166,0.15) 0%, rgba(15,118,110,0.25) 50%, rgba(20,184,166,0.08) 100%)'
+              : 'linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.55))',
             border: '1.5px solid',
-            borderColor: darkMode
-              ? 'rgba(100, 200, 150, 0.3)'
-              : 'rgba(132, 204, 22, 0.4)',
+            borderColor: 'rgba(20, 184, 166, 0.15)',
             boxShadow: darkMode
-              ? '0 25px 80px rgba(0,0,0,0.4), inset 0 1px 0 rgba(100,200,150,0.2), 0 0 40px rgba(13,115,119,0.3)'
-              : '0 25px 80px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8), 0 0 40px rgba(132,204,22,0.2)',
+              ? '0 20px 60px rgba(20,184,166,0.25), inset 0 1px 0 rgba(255,255,255,0.15), 0 0 50px rgba(15,118,110,0.15)'
+              : '0 8px 24px rgba(15, 118, 110, 0.12)',
             position: 'relative',
             overflow: 'hidden',
             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             '&:hover': {
               boxShadow: darkMode
-                ? '0 35px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(100,200,150,0.3), 0 0 60px rgba(13,115,119,0.5)'
-                : '0 35px 100px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.9), 0 0 60px rgba(132,204,22,0.3)',
-              transform: 'translateY(-5px)'
+                ? '0 30px 80px rgba(20,184,166,0.35), inset 0 1px 0 rgba(255,255,255,0.2), 0 0 70px rgba(15,118,110,0.2)'
+                : '0 12px 32px rgba(15, 118, 110, 0.15)',
+              transform: 'translateY(-4px)'
             }
           }}>
-            {/* Decorative elements */}
             <Box sx={{
               position: 'absolute',
-              top: -50,
-              right: -50,
-              width: 150,
-              height: 150,
-              background: 'radial-gradient(circle, rgba(218,248,0,0.1) 0%, transparent 70%)',
+              top: -40,
+              right: -40,
+              width: 120,
+              height: 120,
+              background: darkMode
+                ? 'radial-gradient(circle, rgba(20,184,166,0.2) 0%, transparent 70%)'
+                : 'radial-gradient(circle, rgba(20,184,166,0.15) 0%, transparent 70%)',
               borderRadius: '50%',
               pointerEvents: 'none'
             }} />
             <Box sx={{
               position: 'absolute',
-              bottom: -50,
-              left: -50,
-              width: 150,
-              height: 150,
-              background: 'radial-gradient(circle, rgba(0,150,101,0.08) 0%, transparent 70%)',
+              bottom: -40,
+              left: -40,
+              width: 120,
+              height: 120,
+              background: darkMode
+                ? 'radial-gradient(circle, rgba(20,184,166,0.12) 0%, transparent 70%)'
+                : 'radial-gradient(circle, rgba(20,184,166,0.1) 0%, transparent 70%)',
               borderRadius: '50%',
               pointerEvents: 'none'
             }} />
 
             <Box sx={{ position: 'relative', zIndex: 1 }}>
               {/* Header */}
-              <Box sx={{ mb: 2.5, textAlign: 'center' }}>
+              <Box sx={{ mb: 2, textAlign: 'center' }}>
                 <Typography variant="h4" sx={{
                   fontWeight: 800,
-                  mb: 0.5,
-                  background: 'linear-gradient(135deg, #009665, #daf800)',
+                  mb: 0.3,
+                  background: 'linear-gradient(135deg, var(--brand), var(--accent))',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  fontSize: { xs: '28px', sm: '32px' }
+                  fontSize: { xs: '26px', sm: '30px' }
                 }}>
                   DoseMate
                 </Typography>
                 <Typography sx={{
-                  color: darkMode ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.6)',
-                  fontSize: '14px',
-                  fontWeight: '500'
+                  color: darkMode ? 'rgba(255,255,255,0.65)' : 'rgba(15,23,42,0.7)',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  letterSpacing: '0.3px'
                 }}>
-                  Create your account to get started
+                  {roleSelected ? (roleSelected === 'ROLE_USER' ? '👤 Patient Registration' : '🏥 Caregiver Registration') : 'Select your role to begin'}
                 </Typography>
               </Box>
 
@@ -242,7 +251,7 @@ const Register = () => {
               {error && (
                 <Alert severity="error" sx={{
                   mb: 2.5,
-                  borderRadius: '12px',
+                  borderRadius: '20px',
                   border: '1px solid',
                   borderColor: 'error.main',
                   background: 'rgba(244,67,54,0.08)',
@@ -254,7 +263,7 @@ const Register = () => {
               {success && (
                 <Alert severity="success" sx={{
                   mb: 2.5,
-                  borderRadius: '12px',
+                  borderRadius: '20px',
                   border: '1px solid',
                   borderColor: 'success.main',
                   background: 'rgba(76,175,80,0.08)',
@@ -264,282 +273,438 @@ const Register = () => {
                 </Alert>
               )}
 
-              <form onSubmit={handleSubmit}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.8 }}>
-                  {/* Name Fields */}
-                  <Box sx={{ display: 'flex', gap: 2 }}>
+              {/* STEP 1: Role Selection */}
+              {!roleSelected && (
+                <Box sx={{ py: 1 }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                    {/* Patient Option */}
+                    <Box
+                      onClick={() => {
+                        setRoleSelected('ROLE_USER')
+                        setRole('ROLE_USER')
+                      }}
+                      sx={{
+                        p: '20px 24px',
+                        borderRadius: '18px',
+                        border: '2px solid',
+                        borderColor: 'var(--brand)',
+                        background: darkMode 
+                          ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, rgba(20, 184, 166, 0.08) 100%)'
+                          : 'linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(20, 184, 166, 0.02) 100%)',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          inset: 0,
+                          background: darkMode 
+                            ? 'linear-gradient(135deg, rgba(245, 197, 66, 0.1) 0%, transparent 100%)'
+                            : 'linear-gradient(135deg, rgba(245, 197, 66, 0.15) 0%, transparent 100%)',
+                          opacity: 0,
+                          transition: 'opacity 0.3s ease'
+                        },
+                        '&:hover': {
+                          transform: 'translateY(-3px)',
+                          boxShadow: darkMode
+                            ? '0 16px 40px rgba(20, 184, 166, 0.3)'
+                            : '0 16px 40px rgba(20, 184, 166, 0.15)',
+                          borderColor: 'var(--accent)',
+                          borderWidth: '2px',
+                          '&::before': {
+                            opacity: 1
+                          }
+                        }
+                      }}
+                    >
+                      <Typography sx={{
+                        fontWeight: '700',
+                        fontSize: '18px',
+                        mb: 0.5,
+                        color: 'var(--brand)',
+                        position: 'relative',
+                        zIndex: 1
+                      }}>
+                        👤 Patient
+                      </Typography>
+                      <Typography sx={{
+                        fontSize: '13px',
+                        color: darkMode ? 'rgba(255,255,255,0.65)' : 'rgba(15,23,42,0.7)',
+                        lineHeight: '1.4',
+                        position: 'relative',
+                        zIndex: 1,
+                        fontWeight: '500'
+                      }}>
+                        Track medications & health records
+                      </Typography>
+                    </Box>
+
+                    {/* Caregiver Option */}
+                    <Box
+                      onClick={() => {
+                        setRoleSelected('ROLE_CAREGIVER')
+                        setRole('ROLE_CAREGIVER')
+                      }}
+                      sx={{
+                        p: '20px 24px',
+                        borderRadius: '18px',
+                        border: '2px solid',
+                        borderColor: 'var(--accent)',
+                        background: darkMode 
+                          ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, rgba(20, 184, 166, 0.08) 100%)'
+                          : 'linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(20, 184, 166, 0.02) 100%)',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          inset: 0,
+                          background: darkMode 
+                            ? 'linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, transparent 100%)'
+                            : 'linear-gradient(135deg, rgba(20, 184, 166, 0.15) 0%, transparent 100%)',
+                          opacity: 0,
+                          transition: 'opacity 0.3s ease'
+                        },
+                        '&:hover': {
+                          transform: 'translateY(-3px)',
+                          boxShadow: darkMode
+                            ? '0 16px 40px rgba(20, 184, 166, 0.3)'
+                            : '0 16px 40px rgba(20, 184, 166, 0.2)',
+                          borderColor: 'var(--brand)',
+                          borderWidth: '2px',
+                          '&::before': {
+                            opacity: 1
+                          }
+                        }
+                      }}
+                    >
+                      <Typography sx={{
+                        fontWeight: '700',
+                        fontSize: '18px',
+                        mb: 0.5,
+                        color: 'var(--accent)',
+                        position: 'relative',
+                        zIndex: 1
+                      }}>
+                        🏥 Caregiver
+                      </Typography>
+                      <Typography sx={{
+                        fontSize: '13px',
+                        color: darkMode ? 'rgba(255,255,255,0.65)' : 'rgba(15,23,42,0.7)',
+                        lineHeight: '1.4',
+                        position: 'relative',
+                        zIndex: 1,
+                        fontWeight: '500'
+                      }}>
+                        Monitor & manage patient
+                        Monitor patients, manage prescriptions, and coordinate care
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+
+              {/* STEP 2: Registration Form */}
+              {roleSelected && (
+                <form onSubmit={handleSubmit}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.2 }}>
+                    {/* Back Button */}
+                    <Button
+                      onClick={() => {
+                        setRoleSelected(null)
+                        setError('')
+                      }}
+                      sx={{
+                        textTransform: 'none',
+                        fontSize: '12px',
+                        fontWeight: '700',
+                        color: 'var(--brand)',
+                        mb: 0.5,
+                        justifyContent: 'flex-start',
+                        pl: 0,
+                        '&:hover': {
+                          background: 'transparent',
+                          filter: 'brightness(0.85)'
+                        }
+                      }}
+                    >
+                      ← Back to role selection
+                    </Button>
+
+                    {/* Name Fields */}
+                    <Box sx={{ display: 'flex', gap: 1.2 }}>
+                      <TextField
+                        fullWidth
+                        label="First Name"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                        sx={inputSx}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Last Name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                        sx={inputSx}
+                      />
+                    </Box>
+
+                    {/* Email Field */}
                     <TextField
                       fullWidth
-                      label="First Name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      onFocus={() => setFocusedField('firstName')}
-                      onBlur={() => setFocusedField(null)}
+                      label="Email Address"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
+                      autoComplete="off"
                       sx={inputSx}
                     />
-                    <TextField
-                      fullWidth
-                      label="Last Name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      onFocus={() => setFocusedField('lastName')}
-                      onBlur={() => setFocusedField(null)}
-                      required
-                      sx={inputSx}
-                    />
-                  </Box>
 
-                  {/* Contact Fields */}
-                  <Box sx={{ display: 'flex', gap: 2 }}>
-                    <TextField
-                      fullWidth
-                      label="Phone"
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      onFocus={() => setFocusedField('phone')}
-                      onBlur={() => setFocusedField(null)}
-                      sx={inputSx}
-                    />
-                    <TextField
-                      fullWidth
-                      label="Age"
-                      type="number"
-                      value={age}
-                      onChange={(e) => setAge(e.target.value)}
-                      onFocus={() => setFocusedField('age')}
-                      onBlur={() => setFocusedField(null)}
-                      sx={inputSx}
-                    />
-                  </Box>
+                    {/* Contact Fields */}
+                    <Box sx={{ display: 'flex', gap: 1.2 }}>
+                      <TextField
+                        fullWidth
+                        label="Phone"
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        sx={inputSx}
+                      />
+                      <TextField
+                        fullWidth
+                        label="Age"
+                        type="number"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        sx={inputSx}
+                      />
+                    </Box>
 
-                  {/* Location Fields */}
-                  <Box sx={{ display: 'flex', gap: 2 }}>
-                    <TextField
-                      fullWidth
-                      label="State"
-                      value={stateName}
-                      onChange={(e) => setStateName(e.target.value)}
-                      onFocus={() => setFocusedField('state')}
-                      onBlur={() => setFocusedField(null)}
-                      sx={inputSx}
-                    />
-                    <TextField
-                      fullWidth
-                      label="District"
-                      value={district}
-                      onChange={(e) => setDistrict(e.target.value)}
-                      onFocus={() => setFocusedField('district')}
-                      onBlur={() => setFocusedField(null)}
-                      sx={inputSx}
-                    />
-                  </Box>
+                    {/* Location Fields */}
+                    <Box sx={{ display: 'flex', gap: 1.2 }}>
+                      <TextField
+                        fullWidth
+                        label="State"
+                        value={stateName}
+                        onChange={(e) => setStateName(e.target.value)}
+                        sx={inputSx}
+                      />
+                      <TextField
+                        fullWidth
+                        label="District"
+                        value={district}
+                        onChange={(e) => setDistrict(e.target.value)}
+                        sx={inputSx}
+                      />
+                    </Box>
 
-                  {/* Email Field */}
-                  <TextField
-                    fullWidth
-                    label="Email Address"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField(null)}
-                    required
-                    autoComplete="off"
-                    sx={inputSx}
-                  />
+                    {/* CAREGIVER-SPECIFIC FIELDS */}
+                    {roleSelected === 'ROLE_CAREGIVER' && (
+                      <Box sx={{
+                        p: 1.5,
+                        borderRadius: '20px',
+                        background: darkMode 
+                          ? 'rgba(20, 184, 166, 0.08)' 
+                          : 'rgba(20, 184, 166, 0.07)',
+                        border: '2px dashed var(--brand)',
+                        my: 0.8
+                      }}>
+                        <Typography sx={{
+                          fontSize: '12px',
+                          fontWeight: '700',
+                        color: 'var(--brand)',
+                          mb: 1,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px'
+                        }}>
+                          📋 Professional Information
+                        </Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                          <TextField
+                            fullWidth
+                            label="Organization / Hospital"
+                            value={organization}
+                            onChange={(e) => setOrganization(e.target.value)}
+                            placeholder="Enter your organization name"
+                            sx={inputSx}
+                          />
+                          <TextField
+                            fullWidth
+                            label="License Number"
+                            value={licenseNumber}
+                            onChange={(e) => setLicenseNumber(e.target.value)}
+                            placeholder="Your professional license number"
+                            sx={inputSx}
+                          />
+                          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' }, gap: 1.2 }}>
+                            <TextField
+                              fullWidth
+                              label="Specialization"
+                              value={specialization}
+                              onChange={(e) => setSpecialization(e.target.value)}
+                              placeholder="e.g., Nursing"
+                              sx={inputSx}
+                            />
+                            <TextField
+                              fullWidth
+                              label="Years of Experience"
+                              type="number"
+                              value={yearsExperience}
+                              onChange={(e) => setYearsExperience(e.target.value)}
+                              placeholder="Years"
+                              sx={inputSx}
+                            />
+                          </Box>
+                        </Box>
+                      </Box>
+                    )}
 
-                  {/* Password Field */}
-                  <Box>
+                    {/* Password Field */}
                     <TextField
                       fullWidth
                       label="Password"
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      onFocus={() => setFocusedField('password')}
-                      onBlur={() => setFocusedField(null)}
                       required
-                      autoComplete="off"
-                      sx={inputSx}
-                      slotProps={{
-                        input: {
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={() => setShowPassword((s) => !s)}
-                                onMouseDown={(e) => e.preventDefault()}
-                                edge="end"
-                                sx={{ color: '#009665' }}
-                              >
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowPassword(!showPassword)}
+                              edge="end"
+                              sx={{
+                                color: showPassword ? 'var(--brand)' : 'var(--text-secondary)',
+                                transition: 'all 0.2s'
+                              }}
+                            >
+                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
                       }}
+                      sx={inputSx}
                     />
+
+                    {/* Password Strength Indicator */}
                     {password && (
-                      <Box sx={{ mt: 1.5 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                          <Typography sx={{ fontSize: '12px', fontWeight: '600', color: 'rgba(0,0,0,0.6)' }}>
+                      <Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.8 }}>
+                          <Typography sx={{ fontSize: '11px', fontWeight: '600', color: 'var(--text-secondary)' }}>
                             Password Strength
                           </Typography>
-                          <Typography sx={{
-                            fontSize: '12px',
-                            fontWeight: '700',
-                            color: passwordStrength.color === 'success' ? '#4caf50' : passwordStrength.color === 'warning' ? '#ff9800' : '#f44336'
-                          }}>
+                          <Typography sx={{ fontSize: '11px', fontWeight: '700', color: passwordStrength.color + '.main' }}>
                             {passwordStrength.label}
                           </Typography>
                         </Box>
-                        <LinearProgress
-                          variant="determinate"
-                          value={passwordStrength.strength * 25}
+                        <LinearProgress 
+                          variant="determinate" 
+                          value={(passwordStrength.strength / 4) * 100}
                           sx={{
-                            height: 6,
-                            borderRadius: '3px',
-                            backgroundColor: 'rgba(0,0,0,0.1)',
+                            height: 5,
+                            borderRadius: '20px',
+                            background: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
                             '& .MuiLinearProgress-bar': {
-                              borderRadius: '3px',
-                              background: passwordStrength.color === 'success'
-                                ? 'linear-gradient(90deg, #4caf50, #81c784)'
-                                : passwordStrength.color === 'warning'
-                                ? 'linear-gradient(90deg, #ff9800, #ffb74d)'
-                                : 'linear-gradient(90deg, #f44336, #ef5350)'
+                              borderRadius: '20px',
+                              background: `linear-gradient(90deg, var(--brand), var(--accent))`
                             }
                           }}
                         />
                       </Box>
                     )}
-                  </Box>
 
-                  {/* Confirm Password Field */}
-                  <Box>
+                    {/* Confirm Password */}
                     <TextField
                       fullWidth
                       label="Confirm Password"
                       type={showConfirmPassword ? 'text' : 'password'}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      onFocus={() => setFocusedField('confirmPassword')}
-                      onBlur={() => setFocusedField(null)}
                       required
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                              edge="end"
+                              sx={{
+                                color: showConfirmPassword ? 'var(--brand)' : 'var(--text-secondary)',
+                                transition: 'all 0.2s'
+                              }}
+                            >
+                              {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
                       sx={inputSx}
-                      slotProps={{
-                        input: {
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              {confirmPassword && password === confirmPassword && (
-                                <CheckCircle sx={{ color: '#4caf50' }} />
-                              )}
-                              {confirmPassword && password !== confirmPassword && (
-                                <IconButton disabled edge="end" sx={{ opacity: 0.5 }}>
-                                  <VisibilityOff />
-                                </IconButton>
-                              )}
-                              {!confirmPassword && (
-                                <IconButton
-                                  onClick={() => setShowConfirmPassword((s) => !s)}
-                                  onMouseDown={(e) => e.preventDefault()}
-                                  edge="end"
-                                  sx={{ color: '#009665' }}
-                                >
-                                  {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                              )}
-                            </InputAdornment>
-                          )
+                    />
+
+                    {/* Submit Button */}
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      type="submit"
+                      disabled={loading}
+                      sx={{
+                        py: 1.3,
+                        fontSize: '15px',
+                        fontWeight: '700',
+                        borderRadius: '20px',
+                      background: 'linear-gradient(90deg, #14b8a6 0%, #0d9488 100%)',
+                      textTransform: 'none',
+                      boxShadow: '0 8px 24px rgba(20, 184, 166, 0.3)',
+                        transition: 'all 0.3s ease',
+                        mt: 1.2,
+                        '&:hover': {
+                          transform: 'translateY(-2px)',
+                          boxShadow: '0 12px 32px rgba(11, 61, 145, 0.4)'
+                        },
+                        '&:active': {
+                          transform: 'translateY(0px)'
+                        },
+                        '&:disabled': {
+                          opacity: 0.7,
+                          cursor: 'not-allowed'
                         }
                       }}
-                    />
-                    {confirmPassword && password !== confirmPassword && (
-                      <Typography sx={{
-                        fontSize: '12px',
-                        color: '#f44336',
-                        mt: 1,
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 0.5,
-                        animation: 'slideIn 0.2s ease-out'
-                      }}>
-                        <Info sx={{ fontSize: 16 }} />
-                        Passwords do not match
-                      </Typography>
-                    )}
+                    >
+                      {loading ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8 }}>
+                          <Box sx={{
+                            width: 16,
+                            height: 16,
+                            borderRadius: '50%',
+                            border: '2px solid rgba(255,255,255,0.3)',
+                            borderTopColor: '#fff',
+                            animation: 'spin 0.8s linear infinite'
+                          }} />
+                          Creating Account...
+                        </Box>
+                      ) : (
+                        'Create Account'
+                      )}
+                    </Button>
                   </Box>
-
-                  {/* Submit Button */}
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    type="submit"
-                    disabled={loading}
-                    sx={{
-                      mt: 2,
-                      py: 1.6,
-                      borderRadius: '12px',
-                      fontSize: '16px',
-                      fontWeight: '700',
-                      textTransform: 'none',
-                      background: 'linear-gradient(135deg, #009665, #00d084)',
-                      boxShadow: '0 8px 24px rgba(0,150,101,0.3)',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      '&::before': {
-                        content: '""',
-                        position: 'absolute',
-                        top: 0,
-                        left: '-100%',
-                        width: '100%',
-                        height: '100%',
-                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-                        transition: 'left 0.5s ease',
-                      },
-                      '&:hover:not(:disabled)::before': {
-                        left: '100%',
-                      },
-                      '&:hover:not(:disabled)': {
-                        boxShadow: '0 12px 32px rgba(0,150,101,0.4)',
-                        transform: 'translateY(-2px)'
-                      },
-                      '&:disabled': {
-                        opacity: 0.7,
-                        cursor: 'not-allowed'
-                      }
-                    }}
-                  >
-                    {loading ? (
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Box sx={{
-                          width: 18,
-                          height: 18,
-                          borderRadius: '50%',
-                          border: '2px solid rgba(255,255,255,0.3)',
-                          borderTopColor: '#fff',
-                          animation: 'spin 0.8s linear infinite'
-                        }} />
-                        Creating Account...
-                      </Box>
-                    ) : (
-                      'Create Account'
-                    )}
-                  </Button>
-                </Box>
-              </form>
+                </form>
+              )}
 
               {/* Login Link */}
-              <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid', borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)', textAlign: 'center' }}>
-                <Typography sx={{ fontSize: '14px', color: darkMode ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)', mb: 1 }}>
+              <Box sx={{ mt: 1.5, pt: 1.5, borderTop: '1px solid', borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)', textAlign: 'center' }}>
+                <Typography sx={{ fontSize: '13px', color: darkMode ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)', mb: 0.6 }}>
                   Already have an account?
                 </Typography>
                 <Link to="/login" style={{ textDecoration: 'none' }}>
                   <Typography sx={{
-                    fontSize: '15px',
+                    fontSize: '14px',
                     fontWeight: '700',
-                    background: 'linear-gradient(135deg, #009665, #daf800)',
+                    background: 'linear-gradient(135deg, var(--brand), var(--accent))',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     cursor: 'pointer',
@@ -595,16 +760,6 @@ const Register = () => {
           }
         }
 
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-
-        /* Remove autocomplete styling */
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
         input:-webkit-autofill:focus {
@@ -618,7 +773,6 @@ const Register = () => {
           -webkit-text-fill-color: var(--text-primary) !important;
         }
 
-        /* Target dark mode autofill */
         html[data-theme="dark"] input:-webkit-autofill,
         html[data-theme="dark"] input:-webkit-autofill:hover,
         html[data-theme="dark"] input:-webkit-autofill:focus {
@@ -627,12 +781,11 @@ const Register = () => {
           -webkit-text-fill-color: #ffffff !important;
         }
 
-        /* Target light mode autofill */
         html[data-theme="light"] input:-webkit-autofill,
         html[data-theme="light"] input:-webkit-autofill:hover,
         html[data-theme="light"] input:-webkit-autofill:focus {
-          -webkit-box-shadow: 0 0 0 1000px rgba(0,150,101,0.02) inset !important;
-          box-shadow: 0 0 0 1000px rgba(0,150,101,0.02) inset !important;
+          -webkit-box-shadow: 0 0 0 1000px rgba(20,184,166,0.05) inset !important;
+          box-shadow: 0 0 0 1000px rgba(20,184,166,0.05) inset !important;
           -webkit-text-fill-color: #1f2937 !important;
         }
       `}</style>

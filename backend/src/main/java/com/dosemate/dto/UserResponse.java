@@ -18,6 +18,11 @@ public class UserResponse {
     private Integer age;
     private String profilePictureUrl;
     private String bio;
+    private String organization;
+    private String licenseNumber;
+    private String specialization;
+    private Integer yearsExperience;
+    private String role;
 
     public static UserResponse fromEntity(User user) {
         return new UserResponse(
@@ -29,7 +34,12 @@ public class UserResponse {
                 user.getAddress(),
                 user.getAge(),
                 user.getProfilePictureUrl(),
-                user.getBio()
+                user.getBio(),
+                user.getOrganization(),
+                user.getLicenseNumber(),
+                user.getSpecialization(),
+                user.getYearsExperience(),
+                user.getRole() != null ? user.getRole().toString() : null
         );
     }
 }

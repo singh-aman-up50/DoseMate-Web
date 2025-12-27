@@ -19,15 +19,15 @@ export const CustomThemeProvider = ({ children }) => {
     palette: {
       mode: darkMode ? 'dark' : 'light',
       primary: {
-        main: '#009665',
-        light: '#00d084',
-        dark: '#007a53',
+        main: '#0B3D91',
+        light: '#2F57B8',
+        dark: '#062A6A',
         contrastText: '#ffffff'
       },
       secondary: {
-        main: '#DAF800',
-        light: '#e8ff4d',
-        dark: '#c4d400',
+        main: '#F5C542',
+        light: '#F9D97A',
+        dark: '#B88B2D',
         contrastText: '#1f2937'
       },
       background: {
@@ -44,7 +44,14 @@ export const CustomThemeProvider = ({ children }) => {
       info: { main: '#2196f3' }
     },
     typography: {
-      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
+      fontFamily:
+        'Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontSize: 16,
+      h1: { fontSize: '28.8px', fontWeight: 700 },
+      h2: { fontSize: '21.6px', fontWeight: 700 },
+      h3: { fontSize: '18px', fontWeight: 700 },
+      body1: { fontSize: '15px' },
+      body2: { fontSize: '13px' }
     },
     components: {
       MuiCard: {

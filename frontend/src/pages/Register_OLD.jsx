@@ -50,7 +50,7 @@ const Register = () => {
       },
       '&.Mui-focused': {
         backgroundColor: 'rgba(255, 255, 255, 1)',
-        borderColor: '#009665',
+        borderColor: 'var(--brand)',
         boxShadow: '0 0 0 4px rgba(0, 150, 101, 0.12), 0 8px 24px rgba(0, 150, 101, 0.15)'
       }
     },
@@ -67,12 +67,12 @@ const Register = () => {
     '& .MuiInputLabel-root': {
       fontSize: '0.9rem',
       fontWeight: '600',
-      color: '#666',
+      color: 'var(--text-secondary)',
       transform: 'translate(14px, -9px) scale(0.75)',
       backgroundColor: 'white',
       padding: '0 4px',
       '&.Mui-focused': {
-        color: '#009665',
+        color: 'var(--brand)',
         fontWeight: '700'
       }
     },
@@ -127,11 +127,11 @@ const Register = () => {
           <Box sx={{ position: 'absolute', top: -80, right: -80, width: 220, height: 220, background: 'radial-gradient(circle, rgba(218,248,0,0.12) 0%, transparent 60%)', borderRadius: '50%', pointerEvents: 'none' }} />
 
           <Box sx={{ textAlign: 'center', mb: 3, position: 'relative', zIndex: 1 }}>
-            <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg,#009665,#daf800)', boxShadow: '0 8px 24px rgba(0,150,101,0.16)', mx: 'auto', mb: 2 }}>
+            <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 72, height: 72, borderRadius: '50%', background: 'linear-gradient(135deg,var(--brand),var(--accent))', boxShadow: '0 8px 24px rgba(0,150,101,0.16)', mx: 'auto', mb: 2 }}>
               <Person sx={{ color: '#fff', fontSize: 32 }} />
             </Box>
-            <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, background: 'linear-gradient(135deg,#009665,#daf800)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Create Account</Typography>
-            <Typography variant="body2" sx={{ color: '#666' }}>Join DoseMate to manage your medicines</Typography>
+            <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5, background: 'linear-gradient(135deg,var(--brand),var(--accent))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Create Account</Typography>
+            <Typography variant="body2" sx={{ color: 'var(--text-secondary)' }}>Join DoseMate to manage your medicines</Typography>
           </Box>
 
           <Divider sx={{ mb: 3 }} />
@@ -271,7 +271,7 @@ const Register = () => {
                           onMouseDown={(e) => e.preventDefault()}
                           edge="end"
                           sx={{
-                            color: '#009665',
+                            color: 'var(--brand)',
                             '&:hover': { background: 'rgba(0, 150, 101, 0.08)' }
                           }}
                         >
@@ -302,7 +302,7 @@ const Register = () => {
                           onMouseDown={(e) => e.preventDefault()}
                           edge="end"
                           sx={{
-                            color: '#009665',
+                            color: 'var(--brand)',
                             '&:hover': { background: 'rgba(0, 150, 101, 0.08)' }
                           }}
                         >
@@ -316,7 +316,7 @@ const Register = () => {
 
               {/* Submit Button */}
               <Grid item xs={12}>
-                <Button
+                    <Button
                   fullWidth
                   variant="contained"
                   type="submit"
@@ -326,7 +326,7 @@ const Register = () => {
                     fontSize: '1rem',
                     fontWeight: '700',
                     borderRadius: 2,
-                    background: 'linear-gradient(135deg, #009665, #00c896)',
+                        background: 'linear-gradient(135deg, var(--brand), var(--brand-light))',
                     boxShadow: '0 12px 30px rgba(0,150,101,0.18)'
                   }}
                 >
@@ -344,7 +344,7 @@ const Register = () => {
           </form>
 
           <Box sx={{ textAlign: 'center', mt: 3 }}>
-            <Typography variant="body2" sx={{ color: '#666' }}>Already have an account? <Link to="/login" style={{ color: '#009665', fontWeight: 700, textDecoration: 'none' }}>Login</Link></Typography>
+            <Typography variant="body2" sx={{ color: 'var(--text-secondary)' }}>Already have an account? <Link to="/login" style={{ color: 'var(--brand)', fontWeight: 700, textDecoration: 'none' }}>Login</Link></Typography>
           </Box>
         </Card>
       </Box>

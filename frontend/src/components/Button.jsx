@@ -1,13 +1,17 @@
 import React from 'react'
 
 export default function Button({ children, className = '', variant = 'primary', ...props }) {
-  const base = 'inline-flex items-center justify-center font-semibold rounded-lg transition focus:outline-none'
+  const base = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400'
   const variants = {
-    primary: 'px-4 py-2 bg-gradient-to-r from-brand to-brand-700 text-white shadow-sm',
-    secondary: 'px-4 py-2 bg-gray-100 text-gray-800 border'
+    primary: 'text-white shadow-md btn-teal hover:shadow-lg',
+    secondary: 'text-teal-700 bg-teal-50 border border-teal-200 hover:bg-teal-100'
   }
   return (
-    <button className={`${base} ${variants[variant] || variants.primary} ${className}`} {...props}>
+    <button
+      className={`${base} ${variants[variant] || variants.primary} ${className}`}
+      style={{ borderRadius: 'var(--control-radius)', fontSize: 'var(--font-size-md)' }}
+      {...props}
+    >
       {children}
     </button>
   )

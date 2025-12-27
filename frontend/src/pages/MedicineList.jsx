@@ -43,14 +43,14 @@ const MedicineList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-8">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center p-0">Loading...</div>
     )
   }
 
   return (
     <>
-      <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen w-full mx-0 px-3 sm:px-4 lg:px-6 py-8" style={{ background: 'linear-gradient(180deg, #a7f3d0 0%, #ffffff 55%, #ccfbf1 100%)', backgroundAttachment: 'fixed' }}>
+        <div className="w-full mx-0 px-3 sm:px-4 lg:px-6">
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl md:text-3xl font-heading font-bold">My Medicines</h2>

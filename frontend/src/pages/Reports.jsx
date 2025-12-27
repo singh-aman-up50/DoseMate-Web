@@ -48,18 +48,23 @@ export default function Reports() {
   }
 
   const handleExportPDF = () => {
-    // Simple printable report: open new window and call print
+    // Get the print area content and open in a new window for printing
     const content = document.getElementById('reports-print-area')
-    if (!content) return
+    if (!content) {
+      alert('No content to export')
+      return
+    }
     const w = window.open('', '_blank')
-    w.document.write('<html><head><title>Adherence Report</title>')
-    w.document.write('<style>body{font-family:Arial,sans-serif;padding:20px}</style>')
+    w.document.write('<!DOCTYPE html><html><head><title>Adherence Report</title>')
+    w.document.write('<style>body{font-family:Arial,sans-serif;padding:20px;margin:0} table{width:100%;border-collapse:collapse} th,td{border:1px solid #ddd;padding:8px;text-align:left}</style>')
     w.document.write('</head><body>')
     w.document.write(content.innerHTML)
     w.document.write('</body></html>')
     w.document.close()
-    w.print()
-    w.close()
+    setTimeout(() => {
+      w.print()
+      w.close()
+    }, 250)
   }
 
   const handleExportCSV = () => {
@@ -88,8 +93,8 @@ export default function Reports() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="min-h-screen bg-gray-50 p-0 py-8" style={{ background: 'linear-gradient(180deg, #a7f3d0 0%, #ffffff 55%, #ccfbf1 100%)', backgroundAttachment: 'fixed' }}>
+        <div className="w-full mx-0 px-3 sm:px-4 lg:px-6">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Adherence Reports</h1>
@@ -126,12 +131,8 @@ export default function Reports() {
               </div>
 
               <div className="flex gap-2">
-                <button onClick={handleExportCSV}>
-                  <Button variant="primary" className="flex items-center gap-2"><Download size={16} /> Export CSV</Button>
-                </button>
-                <button onClick={handleExportPDF}>
-                  <Button variant="secondary" className="flex items-center gap-2"><Download size={16} /> Export PDF</Button>
-                </button>
+                <Button variant="primary" onClick={handleExportCSV} className="flex items-center gap-2"><Download size={16} /> Export CSV</Button>
+                <Button onClick={handleExportPDF} className="flex items-center gap-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition" style={{ background: 'linear-gradient(90deg, #dc2626 0%, #b91c1c 100%)', boxShadow: '0 4px 12px rgba(220, 38, 38, 0.3)' }}><Download size={16} /> Export PDF</Button>
               </div>
             </div>
             </div>
@@ -192,40 +193,60 @@ export default function Reports() {
           </div>
 
           {/* Detailed Statistics Table */}
-          <div id="reports-print-area" className="bg-white rounded-lg shadow p-6 mt-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Medicine-wise Adherence</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="table-header">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Medicine</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Total</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Taken</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Missed</th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Adherence Rate</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {medicines.map((medicine) => {
-                    const s = medicineStats[medicine.id] || {}
-                    return (
-                      <tr key={medicine.id} className="border-t">
-                        <td className="px-6 py-4 text-sm text-gray-900">{medicine.name}</td>
-                        <td className="px-6 py-4 text-sm text-gray-600">{s.total ?? 0}</td>
-                        <td className="px-6 py-4 text-sm text-gray-600">{s.taken ?? 0}</td>
-                        <td className="px-6 py-4 text-sm text-gray-600">{s.missed ?? 0}</td>
-                        <td className="px-6 py-4 text-sm">
-                          <span className={`px-2 py-1 rounded ${((s.adherenceRate||'')+'').includes('%') && parseFloat((s.adherenceRate||'').toString())<75 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
-                            {s.adherenceRate ?? '-'}
-                          </span>
-                        </td>
+          <Card className="mt-8">
+            <div id="reports-print-area">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Medicine-wise Adherence</h2>
+              {medicines.length === 0 ? (
+                <p className="text-gray-600 text-center py-8">No medicines found. Add medicines to view adherence data.</p>
+              ) : (
+                <div className="overflow-x-auto rounded-xl" style={{ borderRadius: '12px', border: '2px solid rgba(0,0,0,0.08)' }}>
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-blue-600 to-blue-700">
+                        <th className="px-6 py-3 text-left text-sm font-bold text-white">Medicine</th>
+                        <th className="px-6 py-3 text-center text-sm font-bold text-white">Total</th>
+                        <th className="px-6 py-3 text-center text-sm font-bold text-white">Taken</th>
+                        <th className="px-6 py-3 text-center text-sm font-bold text-white">Missed</th>
+                        <th className="px-6 py-3 text-center text-sm font-bold text-white">Adherence Rate</th>
                       </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {medicines.map((medicine, idx) => {
+                        const s = medicineStats[medicine.id] || {}
+                        const taken = s.taken || 0
+                        const missed = s.missed || 0
+                        // Calculate total from taken + missed if not provided or is 0
+                        const total = (s.total && s.total > 0) ? s.total : (taken + missed)
+                        const adherenceRate = s.adherenceRate || 'N/A'
+                        const rateNum = typeof adherenceRate === 'string' ? parseInt(adherenceRate) : adherenceRate
+                        // Alternate BEIGE and PINK rows
+                        const rowBg = idx % 2 === 0 ? 'bg-amber-50' : 'bg-pink-50'
+                        const rowBorder = idx % 2 === 0 ? 'border-amber-200' : 'border-pink-200'
+                        return (
+                          <tr key={medicine.id} className={`${rowBg} border-b-2 ${rowBorder} hover:shadow-sm transition`}>
+                            <td className="px-6 py-4 text-sm font-semibold text-gray-900">{medicine.name}</td>
+                            <td className="px-6 py-4 text-center text-sm text-gray-700 font-medium">{total}</td>
+                            <td className="px-6 py-4 text-center text-sm text-green-700 font-semibold">{taken}</td>
+                            <td className="px-6 py-4 text-center text-sm text-red-700 font-semibold">{missed}</td>
+                            <td className="px-6 py-4 text-center text-sm">
+                              <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                                isNaN(rateNum) ? 'bg-gray-100 text-gray-600' :
+                                rateNum >= 90 ? 'bg-green-200 text-green-900' :
+                                rateNum >= 75 ? 'bg-yellow-200 text-yellow-900' :
+                                'bg-red-200 text-red-900'
+                              }`}>
+                                {adherenceRate}
+                              </span>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
-          </div>
+          </Card>
         </div>
       </div>
     </>

@@ -16,8 +16,8 @@ export const AuthProvider = ({ children }) => {
     setLoading(false)
   }, [])
 
-  const register = async (firstName, lastName, email, password, confirmPassword, phone, address, age) => {
-    const response = await api.post('/auth/register', {
+  const register = async (firstName, lastName, email, password, confirmPassword, phone, address, age, role, caregiverMeta) => {
+    const body = {
       firstName,
       lastName,
       email,
@@ -25,8 +25,16 @@ export const AuthProvider = ({ children }) => {
       confirmPassword,
       phone: phone || null,
       address: address || null,
-      age: age ? parseInt(age) : null
-    })
+      age: age ? parseInt(age) : null,
+      role: role || 'ROLE_USER'
+    }
+    if (role === 'ROLE_CAREGIVER' && caregiverMeta) {
+      body.organization = caregiverMeta.organization || null
+      body.licenseNumber = caregiverMeta.licenseNumber || null
+      body.specialization = caregiverMeta.specialization || null
+      body.yearsExperience = caregiverMeta.yearsExperience ? parseInt(caregiverMeta.yearsExperience) : null
+    }
+    const response = await api.post('/auth/register', body)
     return response.data
   }
 

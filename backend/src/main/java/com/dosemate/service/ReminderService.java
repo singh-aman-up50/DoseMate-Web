@@ -62,14 +62,16 @@ public class ReminderService {
         }
         if (!toSave.isEmpty()) reminderRepository.saveAll(toSave);
 
-        // Mark overdue reminders as MISSED
+        // Mark overdue reminders (PENDING or TRIGGERED) as MISSED after grace period
         List<Reminder> pending = reminderRepository.findByStatus(ReminderStatus.PENDING);
+        List<Reminder> triggered = reminderRepository.findByStatus(ReminderStatus.TRIGGERED);
+        pending.addAll(triggered);
         for (Reminder r : pending) {
-                if (r.getScheduledAt().isBefore(LocalDateTime.now().minusMinutes(30))) {
-                    r.setStatus(ReminderStatus.MISSED);
-                    historyRepository.save(new History(null, r, ReminderStatus.MISSED, java.time.Instant.now(), "AUTO", null, null));
-                    reminderRepository.save(r);
-                }
+            if (r.getScheduledAt() != null && r.getScheduledAt().isBefore(LocalDateTime.now().minusMinutes(30))) {
+                r.setStatus(ReminderStatus.MISSED);
+                historyRepository.save(new History(null, r, ReminderStatus.MISSED, java.time.Instant.now(), "AUTO", null, null));
+                reminderRepository.save(r);
+            }
         }
     }
 

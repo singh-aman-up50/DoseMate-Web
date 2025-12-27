@@ -35,8 +35,14 @@ public class User {
     private String profilePictureUrl;
 
     private String bio;
+    // Caregiver-specific fields (optional)
+    private String organization;
+    private String licenseNumber;
+    private String specialization;
+    private Integer yearsExperience;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(50) CHECK (role IN ('ROLE_USER', 'ROLE_CAREGIVER', 'ROLE_ADMIN'))")
     private Role role;
 
     private Instant createdAt;

@@ -4,6 +4,7 @@ import com.dosemate.dto.AuthResponse;
 import com.dosemate.dto.LoginRequest;
 import com.dosemate.dto.RegisterRequest;
 import com.dosemate.dto.UserResponse;
+import com.dosemate.model.Role;
 import com.dosemate.model.User;
 import com.dosemate.repository.UserRepository;
 import com.dosemate.security.JwtUtils;
@@ -51,8 +52,37 @@ public class AuthService {
             user.setPhone(req.getPhone());
             user.setAddress(req.getAddress());
             user.setAge(req.getAge());
+            // If registering as caregiver, set caregiver-specific fields
+            if (req.getRole() != null && req.getRole().equals("ROLE_CAREGIVER")) {
+                user.setOrganization(req.getOrganization());
+                user.setLicenseNumber(req.getLicenseNumber());
+                user.setSpecialization(req.getSpecialization());
+                user.setYearsExperience(req.getYearsExperience());
+            }
+            
+            // Set role based on request with server-side validation for caregiver fields
+            if (req.getRole() != null && req.getRole().equals("ROLE_CAREGIVER")) {
+                // Validate caregiver-specific required fields
+                if (req.getOrganization() == null || req.getOrganization().isBlank()) {
+                    throw new IllegalArgumentException("Organization is required for caregiver registration");
+                }
+                if (req.getLicenseNumber() == null || req.getLicenseNumber().isBlank()) {
+                    throw new IllegalArgumentException("License number is required for caregiver registration");
+                }
+                if (req.getSpecialization() == null || req.getSpecialization().isBlank()) {
+                    throw new IllegalArgumentException("Specialization is required for caregiver registration");
+                }
+                if (req.getYearsExperience() != null && req.getYearsExperience() < 0) {
+                    throw new IllegalArgumentException("Years of experience must be non-negative");
+                }
+
+                user.setRole(Role.ROLE_CAREGIVER);
+            } else {
+                user.setRole(Role.ROLE_USER);
+            }
+            
             User saved = userRepository.save(user);
-            log.info("User registered successfully: {}", saved.getEmail());
+            log.info("User registered successfully: {} with role: {}", saved.getEmail(), saved.getRole());
             
             String token = jwtUtils.generateToken(saved.getEmail());
             return new AuthResponse(token, UserResponse.fromEntity(saved));
@@ -70,3 +100,4 @@ public class AuthService {
         return new AuthResponse(token, UserResponse.fromEntity(user));
     }
 }
+
